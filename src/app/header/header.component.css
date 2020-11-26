@@ -1,0 +1,17 @@
+#logo {
+  height: 10em;
+ 
+  padding-top: 0.7em;
+}
+
+span {
+  display: inline-block;
+  padding-right: 2em;
+  font-size: 0.75em;
+}
+
+a {
+  color: #333;
+  text-decoration: none;
+  font-weight: 400;
+}
