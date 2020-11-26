@@ -1,36 +1,67 @@
 <div id="banner">
-  <h1 id="main-sentence">Add dynamic functionality to your static site</h1>
+  <div id="inner-banner">
+    <h1 id="main-sentence">Add dynamic functionality to your static site</h1>
+    <br />
+    <h2>
+      Free collection of great plugins with instant integration.<br />Just copy
+      paste code snippets to supercharge your website.
+    </h2>
+  </div>
 </div>
 
-<div
-  id="grid"
-  fxLayout="row wrap"
-  fxLayoutGap="32px"
-  fxLayoutAlign="flex-start"
->
-  <ng-container *ngFor="let widget of embeds">
-    <div fxFlex="0 1 calc(33.3% - 32px)" style="padding-bottom: 2em">
-      <mat-card class="card">
-        <mat-card-header>
-          <mat-card-title style="padding-left: 0;">{{ widget.Name }}</mat-card-title>
-          <!-- <mat-card-subtitle>Subtitle</mat-card-subtitle> -->
-        </mat-card-header>
-        <img
-          *ngIf="widget.Image"
-          mat-card-image
-          src="image.jpg"
-          alt="Alt text"
-        />
-        <mat-card-content>
-          <p>
-            {{ widget.Description }}
-          </p>
-        </mat-card-content>
-        <mat-card-actions>
-          <button *ngIf="widget.Available" routerLink="/{{widget.ID}}" mat-raised-button>Learn more</button>
-          <button *ngIf="!widget.Available" mat-button disabled=true>Coming soon</button>
-        </mat-card-actions>
-      </mat-card>
-    </div>
-  </ng-container>
+<div id="container">
+  <div id="search-input">
+    <form class="example-form">
+      <mat-form-field appearance="outline" class="example-full-width">
+        <input matInput placeholder="Search.." />
+      </mat-form-field>
+    </form>
+  </div>
+
+  <div
+    id="grid"
+    fxLayout="row wrap"
+    fxLayoutGap="32px"
+    fxLayoutAlign="flex-start"
+  >
+    <ng-container *ngFor="let widget of embeds">
+      <div
+        fxFlex.lt-md="1"
+        fxFlex.gt-md="0 1 calc(33.3% - 32px)"
+        style="padding-bottom: 2em"
+      >
+        <mat-card class="card">
+          <mat-card-header>
+            <mat-card-title style="padding-left: 0">{{
+              widget.Name
+            }}</mat-card-title>
+            <!-- <mat-card-subtitle>Subtitle</mat-card-subtitle> -->
+          </mat-card-header>
+          <img
+            *ngIf="widget.Image"
+            mat-card-image
+            src="image.jpg"
+            alt="Alt text"
+          />
+          <mat-card-content>
+            <p>
+              {{ widget.Description }}
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button
+              *ngIf="widget.Available"
+              routerLink="/{{ widget.ID }}"
+              mat-raised-button
+            >
+              Learn more
+            </button>
+            <button *ngIf="!widget.Available" mat-button disabled="true">
+              Coming soon
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </ng-container>
+  </div>
 </div>
