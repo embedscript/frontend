@@ -23,7 +23,13 @@
   padding-right: 0;
   padding-bottom: 2em;
   margin: 0 auto;
-  background: linear-gradient(#ca3c91, #e9454d);
+  background: rgb(202, 60, 145);
+  background: linear-gradient(
+    137deg,
+    rgba(202, 60, 145, 1) 0%,
+    rgba(233, 69, 77, 1) 35%,
+    rgba(255, 253, 76, 1) 100%
+  );
   font-weight: 700;
   color: white;
   text-align: center;
@@ -51,13 +57,12 @@
 }
 
 #search-input {
-  margin-top: 2em;
   width: 100%;
-  margin-bottom: 1em;
+  margin-bottom: 0em;
 }
 
-.example-full-width {
-  width: 50%;
+.mat-form-field {
+  width: 100%;
 }
 
 #inner-banner {
@@ -72,7 +77,17 @@
   margin: 0 auto;
 }
 
+#container-holder {
+  width: 100%;
+  background: #f8f8f8;
+}
+
 #inner-banner h2 {
   font-weight: 400;
   color: #f2f2f2;
+}
+
+#search-section {
+  padding-top: 2em;
+  margin-bottom: 1em;
 }
