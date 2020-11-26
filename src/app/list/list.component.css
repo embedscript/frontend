@@ -17,13 +17,22 @@
 }
 
 #banner {
-  width: 50%;
+  width: 100%;
+  padding-top: 2em;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 2em;
   margin: 0 auto;
-  padding: 2em;
+  background: linear-gradient(#ca3c91, #e9454d);
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  border-bottom: 1px #ccc;
 }
 
 #main-sentence {
-  font-size: 2em;
+  font-size: 3em;
+  font-weight: 500;
 }
 
 #grid {
@@ -42,11 +51,28 @@
 }
 
 #search-input {
-  text-align: center;
+  margin-top: 2em;
   width: 100%;
-  margin-bottom: 3em;
+  margin-bottom: 1em;
 }
 
 .example-full-width {
   width: 50%;
+}
+
+#inner-banner {
+  width: 50%;
+  padding-top: 4em;
+  padding-bottom: 0em;
+  margin: 0 auto;
+}
+
+#container {
+  width: 60%;
+  margin: 0 auto;
+}
+
+#inner-banner h2 {
+  font-weight: 400;
+  color: #f2f2f2;
 }
