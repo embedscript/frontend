@@ -16,13 +16,6 @@
   padding-right: 0;
   padding-bottom: 2em;
   margin: 0 auto;
-  background: rgb(202, 60, 145);
-  background: linear-gradient(
-    137deg,
-    rgba(202, 60, 145, 1) 0%,
-    rgba(233, 69, 77, 1) 35%,
-    rgba(255, 253, 76, 1) 100%
-  );
   font-weight: 700;
   color: white;
   text-align: center;

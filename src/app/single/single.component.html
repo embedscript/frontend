@@ -1,7 +1,8 @@
 <app-banner
   *ngIf="embed"
-  [title]="embed.Name"
-  [description]="embed.Description"
+  [title]="embed.name"
+  [description]="embed.description"
+  [background]="embed.background"
 ></app-banner>
 
 <div
@@ -12,7 +13,7 @@
   <div fxLayout="row wrap" fxLayoutAlign="flex-start" fxLayoutGap.gt-md="32px">
     <div fxFlex.gt-md="0 1 calc(66.6% - 32px)">
       <a routerLink="/">Embeds</a> &nbsp;&nbsp;>&nbsp;&nbsp;
-      {{ embed.Name }}
+      {{ embed.name }}
       <p>
         <br /><br />
         <markdown *ngIf="embedID" src="/assets/{{ embedID }}.md"></markdown>
@@ -26,17 +27,9 @@
           >
           <!-- <mat-card-subtitle>Subtitle</mat-card-subtitle> -->
         </mat-card-header>
-        <mat-card-content> 10 minutes </mat-card-content>
-      </mat-card>
-
-      <mat-card class="card">
-        <mat-card-header>
-          <mat-card-title style="padding-left: 0"
-            >Time to implement</mat-card-title
-          >
-          <!-- <mat-card-subtitle>Subtitle</mat-card-subtitle> -->
-        </mat-card-header>
-        <mat-card-content> 10 minutes </mat-card-content>
+        <mat-card-content
+          >{{ embed.timeToImplement ? embed.timeToImplement : 5 }} minutes
+        </mat-card-content>
       </mat-card>
     </div>
   </div>
