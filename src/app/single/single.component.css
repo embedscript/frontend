@@ -1,10 +1,15 @@
 #container {
   width: 75%;
   margin: 0 auto;
-  padding-top: 4em;
+  padding-top: 2em;
 }
 
 ::ng-deep .mat-card-header-text {
   /* CSS styles go here */
   margin: 0px !important;
+}
+
+mat-card {
+  background: #f8f8f8;
+  margin-bottom: 2em;
 }

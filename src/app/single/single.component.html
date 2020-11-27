@@ -1,14 +1,43 @@
-<div id="container">
-  <mat-card class="card">
-    <mat-card-header>
-      <mat-card-title style="padding-left: 0"><a routerLink="/">Embeds</a> &nbsp;&nbsp;>&nbsp;&nbsp; Blogging</mat-card-title>
-      <!-- <mat-card-subtitle>Subtitle</mat-card-subtitle> -->
-    </mat-card-header>
-    <mat-card-content>
+<app-banner
+  *ngIf="embed"
+  [title]="embed.Name"
+  [description]="embed.Description"
+></app-banner>
+
+<div
+  id="container"
+  ngStyle.lt-md="width: 90%; margin:0 auto;"
+  ngStyle.gt-md="width: 60%;"
+>
+  <div fxLayout="row wrap" fxLayoutAlign="flex-start" fxLayoutGap.gt-md="32px">
+    <div fxFlex.gt-md="0 1 calc(66.6% - 32px)">
+      <a routerLink="/">Embeds</a> &nbsp;&nbsp;>&nbsp;&nbsp;
+      {{ embed.Name }}
       <p>
         <br /><br />
         <markdown *ngIf="embedID" src="/assets/{{ embedID }}.md"></markdown>
       </p>
-    </mat-card-content>
-  </mat-card>
+    </div>
+    <div fxFlex="0 1 calc(33.3% - 32px)">
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title style="padding-left: 0"
+            >Time to implement</mat-card-title
+          >
+          <!-- <mat-card-subtitle>Subtitle</mat-card-subtitle> -->
+        </mat-card-header>
+        <mat-card-content> 10 minutes </mat-card-content>
+      </mat-card>
+
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title style="padding-left: 0"
+            >Time to implement</mat-card-title
+          >
+          <!-- <mat-card-subtitle>Subtitle</mat-card-subtitle> -->
+        </mat-card-header>
+        <mat-card-content> 10 minutes </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
 </div>

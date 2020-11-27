@@ -1,0 +1,35 @@
+#inner-banner {
+  padding-top: 4em;
+  padding-bottom: 0em;
+  margin: 0 auto;
+}
+
+#inner-banner h2 {
+  font-weight: 400;
+  color: #f2f2f2;
+}
+
+#banner {
+  width: 100%;
+  padding-top: 2em;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 2em;
+  margin: 0 auto;
+  background: rgb(202, 60, 145);
+  background: linear-gradient(
+    137deg,
+    rgba(202, 60, 145, 1) 0%,
+    rgba(233, 69, 77, 1) 35%,
+    rgba(255, 253, 76, 1) 100%
+  );
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  border-bottom: 1px #ccc;
+}
+
+#main-sentence {
+  font-size: 3em;
+  font-weight: 500;
+}
