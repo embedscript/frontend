@@ -2,6 +2,12 @@
   title="Embed dynamic widgets on any site"
   description="Free collection of great plugins with instant integration. Just copy
 paste code snippets to supercharge your website."
+  background="linear-gradient(
+  137deg,
+  rgba(202, 60, 145, 1) 0%,
+  rgba(233, 69, 77, 1) 35%,
+  rgba(255, 253, 76, 1) 100%
+)"
 ></app-banner>
 
 <div id="container-holder">
@@ -23,7 +29,13 @@ paste code snippets to supercharge your website."
       <div fxFlex="0 1 calc(33.3% - 32px)" id="search-input">
         <form class="example-form">
           <mat-form-field appearance="outline" class="example-full-width">
-            <input matInput placeholder="Search.." />
+            <input
+              [(ngModel)]="searchTerm"
+              [ngModelOptions]="{ standalone: true }"
+              (keyup)="filter()"
+              matInput
+              placeholder="Search.."
+            />
           </mat-form-field>
         </form>
       </div>
@@ -44,30 +56,30 @@ paste code snippets to supercharge your website."
           <mat-card class="card">
             <mat-card-header>
               <mat-card-title style="padding-left: 0">{{
-                widget.Name
+                widget.name
               }}</mat-card-title>
               <!-- <mat-card-subtitle>Subtitle</mat-card-subtitle> -->
             </mat-card-header>
             <img
-              *ngIf="widget.Image"
+              *ngIf="widget.image"
               mat-card-image
               src="image.jpg"
               alt="Alt text"
             />
             <mat-card-content>
               <p>
-                {{ widget.Description }}
+                {{ widget.description }}
               </p>
             </mat-card-content>
             <mat-card-actions>
               <button
-                *ngIf="widget.Available"
+                *ngIf="widget.available"
                 routerLink="/{{ widget.ID }}"
                 mat-raised-button
               >
                 Learn more
               </button>
-              <button *ngIf="!widget.Available" mat-button disabled="true">
+              <button *ngIf="!widget.available" mat-button disabled="true">
                 Coming soon
               </button>
             </mat-card-actions>
@@ -75,12 +87,6 @@ paste code snippets to supercharge your website."
         </div>
       </ng-container>
 
-      <mat-paginator
-        [length]="length"
-        [pageSize]="pageSize"
-        [pageSizeOptions]="pageSizeOptions"
-      >
-      </mat-paginator>
       <br /><br />
     </div>
   </div>
