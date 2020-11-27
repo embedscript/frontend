@@ -16,9 +16,11 @@ import { HeaderComponent } from "./header/header.component";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { FormsModule } from "@angular/forms";
 import { MatInputModule } from "@angular/material/input";
+import { BannerComponent } from './banner/banner.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
-  declarations: [AppComponent, ListComponent, SingleComponent, HeaderComponent],
+  declarations: [AppComponent, ListComponent, SingleComponent, HeaderComponent, BannerComponent],
   imports: [
     CommonModule,
     BrowserModule,
@@ -30,6 +32,7 @@ import { MatInputModule } from "@angular/material/input";
     FormsModule,
     FlexLayoutModule,
     MatToolbarModule,
+    MatPaginatorModule,
     MarkdownModule.forRoot(),
     HttpClientModule,
     MarkdownModule.forRoot({ loader: HttpClient }),

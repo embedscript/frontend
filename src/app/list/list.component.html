@@ -1,23 +1,22 @@
-<div id="banner">
-  <div id="inner-banner">
-    <h1 id="main-sentence">Embed dynamic widgets on any site</h1>
-    <br />
-    <h2>
-      Free collection of great plugins with instant integration.<br />Just copy
-      paste code snippets to supercharge your website.
-    </h2>
-  </div>
-</div>
+<app-banner
+  title="Embed dynamic widgets on any site"
+  description="Free collection of great plugins with instant integration. Just copy
+paste code snippets to supercharge your website."
+></app-banner>
 
 <div id="container-holder">
-  <div id="container">
+  <div
+    id="container"
+    ngStyle.lt-md="width: 90%; margin:0 auto;"
+    ngStyle.gt-md="width: 60%;"
+  >
     <div
       fxLayout="row wrap"
       fxLayoutAlign="flex-start"
       id="search-section"
       fxLayoutGap="32px"
     >
-      <div fxFlex="0 1 calc(66.6% - 32px)" id="look">
+      <div fxFlex.gt-md="0 1 calc(66.6% - 32px)" id="look">
         <br />
         <h2>Look for embeddable widgets</h2>
       </div>
@@ -33,7 +32,7 @@
     <div
       id="grid"
       fxLayout="row wrap"
-      fxLayoutGap="32px"
+      fxLayoutGap.gt-md="32px"
       fxLayoutAlign="flex-start"
     >
       <ng-container (ngIf="embeds" *ngFor="let widget of embeds">
@@ -75,6 +74,15 @@
           </mat-card>
         </div>
       </ng-container>
+
+      <mat-paginator
+        [length]="length"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="pageEvent = $event"
+      >
+      </mat-paginator>
+      <br /><br />
     </div>
   </div>
 </div>
