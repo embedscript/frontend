@@ -1,23 +1,42 @@
 <br />
-<mat-button-toggle-group #toggle="matButtonToggleGroup" value="ts" name="fontStyle" aria-label="Font Style">
-  <mat-button-toggle selected=true value="ts">Javascript</mat-button-toggle>
-  <mat-button-toggle value="html">HTML</mat-button-toggle>
-  <mat-button-toggle value="css">CSS</mat-button-toggle>
-</mat-button-toggle-group>
+<mat-card style="width: 60%; margin: 0 auto;">
+  <mat-card-title>{{ id }}</mat-card-title>
+  <br />
+  <mat-button-toggle-group
+    #toggle="matButtonToggleGroup"
+    value="ts"
+    name="fontStyle"
+    aria-label="Font Style"
+  >
+    <mat-button-toggle selected="true" value="ts">Javascript</mat-button-toggle>
+    <mat-button-toggle value="html">HTML</mat-button-toggle>
+    <mat-button-toggle value="css">CSS</mat-button-toggle>
+  </mat-button-toggle-group>
 
-<ngx-monaco-editor *ngIf="toggle.value == 'ts'"
-  [options]="tsEditorOptions"
-  [(ngModel)]="tsCode"
-></ngx-monaco-editor>
+  <ngx-monaco-editor
+    *ngIf="toggle.value == 'ts'"
+    [options]="tsEditorOptions"
+    [(ngModel)]="tsCode"
+  ></ngx-monaco-editor>
 
-<ngx-monaco-editor *ngIf="toggle.value == 'html'"
-  [options]="htmlEditorOptions"
-  [(ngModel)]="htmlCode"
-></ngx-monaco-editor>
+  <ngx-monaco-editor
+    *ngIf="toggle.value == 'html'"
+    [options]="htmlEditorOptions"
+    [(ngModel)]="htmlCode"
+  ></ngx-monaco-editor>
 
-<ngx-monaco-editor *ngIf="toggle.value == 'css'"
-  [options]="cssEditorOptions"
-  [(ngModel)]="cssCode"
-></ngx-monaco-editor>
+  <ngx-monaco-editor
+    *ngIf="toggle.value == 'css'"
+    [options]="cssEditorOptions"
+    [(ngModel)]="cssCode"
+  ></ngx-monaco-editor>
 
-<button mat-raised-button (click)="save()" color="primary">Save</button>
+  <button mat-raised-button (click)="save()" color="primary">Save</button>
+  <br /><br />
+
+  <app-render
+    [tsCode]="tsCode"
+    [cssCode]="cssCode"
+    [htmlCode]="htmlCode"
+  ></app-render>
+</mat-card>

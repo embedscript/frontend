@@ -28,4 +28,15 @@ export class GistListComponent implements OnInit {
    
   }
 
+  getStyle(files: files.File[]): files.File {
+    return files.filter(f => f.path.includes("style"))[0]
+  }
+
+  getTs(files: files.File[]): files.File {
+    return files.filter(f => f.path.includes("main"))[0]
+  }
+
+  getHtml(files: files.File[]): files.File {
+    return files.filter(f => f.path.includes("index"))[0]
+  }
 }

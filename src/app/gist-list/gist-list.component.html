@@ -1,7 +1,26 @@
-<div *ngFor="let fileGroup of files">
-    <div *ngFor="let file of fileGroup">
-        <div>
-            {{ file.file_contents }}
-        </div>
+<div
+  id="container"
+>
+  <div
+    id="grid"
+    fxLayout="row wrap"
+    fxLayoutGap.gt-md="32px"
+    fxLayoutAlign="space-between"
+  >
+    <div
+      *ngFor="let fileGroup of files"
+      fxFlex.lt-lg="0 1 100%"
+      fxFlex.gt-md="0 1 calc(33.3% - 32px)"
+      style="padding-bottom: 2em"
+    >
+      <mat-card style="background: #fcfcfc; margin-bottom: 1em">
+        <mat-card-title><a routerLink="/gist/{{ getTs(fileGroup).project }}">{{ getTs(fileGroup).project }}</a></mat-card-title>
+        <app-render style="background: white;"
+          [tsCode]="getTs(fileGroup).file_contents"
+          [cssCode]="getStyle(fileGroup).file_contents"
+          [htmlCode]="getHtml(fileGroup).file_contents"
+        ></app-render>
+      </mat-card>
     </div>
+  </div>
 </div>

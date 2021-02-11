@@ -28,9 +28,10 @@ import { SimpleNotificationsModule } from "angular2-notifications";
 import { CookieService } from "ngx-cookie-service";
 import { RegisterComponent} from './register/register.component';
 import { LoginComponent } from './login/login.component';
+import { RenderComponent } from './render/render.component';
 
 @NgModule({
-  declarations: [AppComponent, ListComponent, SingleComponent, HeaderComponent, BannerComponent, GistListComponent, GistEditComponent, RegisterComponent, LoginComponent ],
+  declarations: [AppComponent, ListComponent, SingleComponent, HeaderComponent, BannerComponent, GistListComponent, GistEditComponent, RegisterComponent, LoginComponent, RenderComponent ],
   imports: [
     CommonModule,
     BrowserModule,
