@@ -1,3 +1,5 @@
+import * as posts from '@m3o/services/posts';
+
 export interface Embed {
   ID: string;
   name: string;

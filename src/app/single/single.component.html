@@ -5,6 +5,8 @@
   [background]="embed.background"
 ></app-banner>
 
+<ngx-monaco-editor [options]="editorOptions" [(ngModel)]="code"></ngx-monaco-editor>
+
 <div
   id="container"
   ngStyle.lt-md="width: 90%; margin:0 auto;"
