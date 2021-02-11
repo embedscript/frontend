@@ -1,7 +1,7 @@
-<div
-  id="container"
->
+<div id="container">
+  <div *ngIf="!files" style="text-align: center;">No widgets yet.</div>
   <div
+    *ngIf="files"
     id="grid"
     fxLayout="row wrap"
     fxLayoutGap.gt-md="32px"
@@ -14,8 +14,13 @@
       style="padding-bottom: 2em"
     >
       <mat-card style="background: #fcfcfc; margin-bottom: 1em">
-        <mat-card-title><a routerLink="/gist/{{ getTs(fileGroup).project }}">{{ getTs(fileGroup).project }}</a></mat-card-title>
-        <app-render style="background: white;"
+        <mat-card-title
+          ><a routerLink="/gist/{{ getTs(fileGroup).project }}">{{
+            getTs(fileGroup).project
+          }}</a></mat-card-title
+        >
+        <app-render
+          style="background: white"
           [tsCode]="getTs(fileGroup).file_contents"
           [cssCode]="getStyle(fileGroup).file_contents"
           [htmlCode]="getHtml(fileGroup).file_contents"

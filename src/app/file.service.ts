@@ -29,7 +29,7 @@ export class FileService {
             headers: {
               authorization: this.us.token(),
               //"micro-namespace": this.us.namespace(),
-              "Micro-Namespace": "micro",
+              "Micro-Namespace": environment.namespace,
             },
           }
         )
@@ -56,7 +56,7 @@ export class FileService {
             headers: {
               authorization: this.us.token(),
               //"micro-namespace": this.us.namespace(),
-              "Micro-Namespace": "micro",
+              "Micro-Namespace": environment.namespace,
             },
           }
         )
