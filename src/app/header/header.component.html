@@ -6,4 +6,6 @@
   <span><a routerLink="/about">About</a></span>
   <span><a routerLink="/pricing">Pricing</a></span>
   <span><a routerLink="/contact">Contact</a></span>
+  <span *ngIf="user?.name">{{ user?.name }}</span>
+  <span *ngIf="!user?.name"><a routerLink="login">Login</a></span>
 </mat-toolbar>
