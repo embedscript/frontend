@@ -98,6 +98,9 @@ export class UserService {
   }
 
   token(): string {
+    if (this.cookie.get("micro_token").length === 0) {
+      return ""
+    }
     return "Bearer " + this.cookie.get("micro_token");
   }
 
