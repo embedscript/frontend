@@ -16,25 +16,53 @@ import * as _ from 'lodash';
   styleUrls: ['./gist-edit.component.css'],
 })
 export class GistEditComponent implements OnInit {
-  id: string;
+  id: string = 'name-this-script-please';
 
-  tsEditorOptions = { theme: 'vs-dark', language: 'javascript ' };
-  tsCode: string = 'function x() {\n\tconsole.log("Hello world!");\n}';
+  // @todo automatic layout doesnt seem to fix the issue of
+  // monaco editor not snapping back to flexlayout defined size
+  // https://github.com/microsoft/monaco-editor/issues/28
+  tsEditorOptions = {
+    theme: 'vs-dark',
+    language: 'html',
+    automaticLayout: true,
+  };
+  tsCode: string = `<script>
+	document.addEventListener("DOMContentLoaded", function (event) {
+    document.getElementById("btn").onclick = function () {
+        Micro.post(
+            "helloworld/call",
+            "backend",
+            {
+                name: "Joe",
+            },
+            function (data) {
+                alert(JSON.stringify(data))
+            }
+        );
+    }
+});
+</script>
+<button id="btn">Call Helloworld as Joe</button>
+<style>
+	#btn {
+		background-color: #fafafa;
+	}
+</style>`;
 
-  htmlEditorOptions = { theme: 'vs-dark', language: 'html' };
-  htmlCode = '<div>\n\t\n</div>';
+  //htmlEditorOptions = { theme: 'vs-dark', language: 'html' };
+  //htmlCode = '<div>\n\t\n</div>';
 
-  cssEditorOptions = { theme: 'vs-dark', language: 'css' };
-  cssCode = 'div {\n\t\n}';
+  //cssEditorOptions = { theme: 'vs-dark', language: 'css' };
+  //cssCode = 'div {\n\t\n}';
 
-  constructor(
-    private route: ActivatedRoute,
-    private fs: FileService
-  ) {}
+  constructor(private route: ActivatedRoute, private fs: FileService) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      this.id = params.get('id');
+      if (params.get('id')) {
+        this.id = params.get('id');
+      }
+
       this.fs.list().then((files) => {
         var fs = _(files)
           .groupBy(function (v) {
@@ -53,13 +81,13 @@ export class GistEditComponent implements OnInit {
             if (f.path.includes('main')) {
               this.tsCode = f.file_contents;
             }
-            if (f.path.includes('index')) {
-              this.htmlCode = f.file_contents;
-            }
+            //if (f.path.includes('index')) {
+            //  this.htmlCode = f.file_contents;
+            //}
 
-            if (f.path.includes('style')) {
-              this.cssCode = f.file_contents;
-            }
+            //if (f.path.includes('style')) {
+            //  this.cssCode = f.file_contents;
+            //}
           });
         }
       });
@@ -75,20 +103,22 @@ export class GistEditComponent implements OnInit {
         is_directory: false,
         project: this.id,
       },
-      {
-        id: this.id + ':' + 'index.html',
-        path: 'index.html',
-        file_contents: this.htmlCode,
-        is_directory: false,
-        project: this.id,
-      },
-      {
-        id: this.id + ':' + 'style.css',
-        path: 'style.css',
-        file_contents: this.cssCode,
-        is_directory: false,
-        project: this.id,
-      },
+      //{
+      //  id: this.id + ':' + 'index.html',
+      //  path: 'index.html',
+      //  file_contents: this.htmlCode,
+      //  is_directory: false,
+      //  project: this.id,
+      //},
+      //{
+      //  id: this.id + ':' + 'style.css',
+      //  path: 'style.css',
+      //  file_contents: this.cssCode,
+      //  is_directory: false,
+      //  project: this.id,
+      //},
     ]);
   }
+
+  render() {}
 }
