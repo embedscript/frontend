@@ -14,7 +14,8 @@ export class RenderComponent implements OnInit, OnChanges {
 
   code: SafeHtml;
 
-  constructor(private _sanitizer: DomSanitizer) {}
+  constructor(private _sanitizer: DomSanitizer) {
+  }
 
   ngOnInit(): void {
     this.render();
