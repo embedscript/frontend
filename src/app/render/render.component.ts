@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { rendererTypeName } from '@angular/compiler';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
@@ -6,19 +7,28 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   templateUrl: './render.component.html',
   styleUrls: ['./render.component.css'],
 })
-export class RenderComponent implements OnInit {
+export class RenderComponent implements OnInit, OnChanges {
   @Input() cssCode: string;
   @Input() tsCode: string;
   @Input() htmlCode: string;
 
+  code: SafeHtml;
+
   constructor(private _sanitizer: DomSanitizer) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.render();
+  }
 
-  render(): SafeHtml {
-    return this._sanitizer.bypassSecurityTrustHtml(
+  ngOnChanges(): void {
+    this.render();
+  }
+
+  render() {
+    this.code = this._sanitizer.bypassSecurityTrustHtml(
       '<html><head><script src="https://embedscript.com/assets/micro.js"></script></head><body>' +
-        this.tsCode
+        this.tsCode +
+        '</body></html>'
     );
   }
 }

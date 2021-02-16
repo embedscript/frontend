@@ -30,7 +30,7 @@
       fxFlex="0 1 100%"
       style="height: 35em"
       fxFlex.lt-lg="0 1 100%"
-      fxFlex.gt-md="0 1 calc(50% - 32px)"
+      fxFlex.gt-md="0 1 calc(50% - 16px)"
     >
       <ngx-monaco-editor
         width="100%"
@@ -39,8 +39,8 @@
         [(ngModel)]="tsCode"
       ></ngx-monaco-editor>
     </div>
-    <div fxFlex.lt-lg="0 1 100%" fxFlex.gt-md="0 1 calc(50% - 32px)">
-      <app-render height="20em" width="100%" [tsCode]="tsCode"></app-render>
+    <div fxFlex.lt-lg="0 1 100%" fxFlex.gt-md="0 1 calc(50% - 16px)">
+      <app-render height="20em" width="100%" [tsCode]="tsCodeRendered"></app-render>
     </div>
   </div>
   <button mat-raised-button (click)="render()">Render</button>&nbsp;&nbsp;

@@ -48,6 +48,7 @@ export class GistEditComponent implements OnInit {
 		background-color: #fafafa;
 	}
 </style>`;
+  tsCodeRendered: string = ``;
 
   //htmlEditorOptions = { theme: 'vs-dark', language: 'html' };
   //htmlCode = '<div>\n\t\n</div>';
@@ -61,6 +62,8 @@ export class GistEditComponent implements OnInit {
     this.route.paramMap.subscribe((params) => {
       if (params.get('id')) {
         this.id = params.get('id');
+      } else {
+        this.render();
       }
 
       this.fs.list().then((files) => {
@@ -80,6 +83,7 @@ export class GistEditComponent implements OnInit {
           fs[0].forEach((f) => {
             if (f.path.includes('main')) {
               this.tsCode = f.file_contents;
+              this.render()
             }
             //if (f.path.includes('index')) {
             //  this.htmlCode = f.file_contents;
@@ -120,5 +124,7 @@ export class GistEditComponent implements OnInit {
     ]);
   }
 
-  render() {}
+  render() {
+    this.tsCodeRendered = this.tsCode
+  }
 }
