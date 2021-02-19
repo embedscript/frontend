@@ -14,8 +14,7 @@ export class RenderComponent implements OnInit, OnChanges {
 
   code: SafeHtml;
 
-  constructor(private _sanitizer: DomSanitizer) {
-  }
+  constructor(private _sanitizer: DomSanitizer) {}
 
   ngOnInit(): void {
     this.render();
@@ -28,7 +27,12 @@ export class RenderComponent implements OnInit, OnChanges {
   render() {
     this.code = this._sanitizer.bypassSecurityTrustHtml(
       '<html><head><script src="https://embedscript.com/assets/micro.js"></script></head><body>' +
+        `<style>` +
+        this.cssCode +
+        `</style><script>` +
         this.tsCode +
+        `</script>` +
+        this.htmlCode +
         '</body></html>'
     );
   }

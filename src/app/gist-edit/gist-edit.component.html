@@ -6,18 +6,21 @@
     <input [disabled]="edit == false" matInput [(ngModel)]="id" />
   </mat-form-field>
   &nbsp;&nbsp;
-  <mat-button-toggle-group
-    [hidden]="edit == true"
-    #toggle="matButtonToggleGroup"
-    value="ts"
-    name="fontStyle"
-    style="position: relative; top: -3px"
-    aria-label="Font Style"
+  <span [hidden]="edit != true"
+    ><mat-button-toggle-group
+      #toggle="matButtonToggleGroup"
+      value="ts"
+      name="fontStyle"
+      style="position: relative; top: -3px"
+      aria-label="Font Style"
+    >
+      <mat-button-toggle selected="true" value="ts"
+        >Javascript</mat-button-toggle
+      >
+      <mat-button-toggle value="html">HTML</mat-button-toggle>
+      <mat-button-toggle value="css">CSS</mat-button-toggle>
+    </mat-button-toggle-group></span
   >
-    <mat-button-toggle selected="true" value="ts">Javascript</mat-button-toggle>
-    <mat-button-toggle value="html">HTML</mat-button-toggle>
-    <mat-button-toggle value="css">CSS</mat-button-toggle>
-  </mat-button-toggle-group>
   <br />
 
   <div
@@ -78,7 +81,9 @@
               background: #f1f1f1;
             "
           >
-          &lt;iframe src="https://backend.m3o.dev/v1/serve?project={{ id }}"&gt;&lt;/iframe&gt;
+            &lt;iframe src="https://backend.m3o.dev/v1/serve?project={{
+              id
+            }}"&gt;&lt;/iframe&gt;
           </div>
         </div>
       </div>
@@ -88,6 +93,8 @@
         height="20em"
         width="100%"
         [tsCode]="tsCodeRendered"
+        [htmlCode]="htmlCodeRendered"
+        [cssCode]="cssCodeRendered"
       ></app-render>
     </div>
   </div>

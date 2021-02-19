@@ -7,6 +7,17 @@ import { ActivatedRoute } from '@angular/router';
 import { mainModule } from 'process';
 import * as _ from 'lodash';
 
+function makeid(length) {
+  var result = '';
+  var characters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
+
 // @todo make this secure
 // https://stackoverflow.com/questions/6732501/what-makes-jsfiddle-secure-from-xss-based-attacks
 
@@ -16,14 +27,14 @@ import * as _ from 'lodash';
   styleUrls: ['./gist-edit.component.css'],
 })
 export class GistEditComponent implements OnInit {
-  id: string = 'name-this-script-please';
+  id: string = 'embed-script' + makeid(8);
   @Input() edit: boolean = false;
 
   // @todo automatic layout doesnt seem to fix the issue of
   // monaco editor not snapping back to flexlayout defined size
   // https://github.com/microsoft/monaco-editor/issues/28
   tsEditorOptions = {
-    language: 'html',
+    language: 'javascript',
     automaticLayout: true,
     //theme: 'vs-light',
     theme: 'vs-dark',
@@ -42,90 +53,20 @@ export class GistEditComponent implements OnInit {
       horizontal: 'hidden',
     },
   };
-  tsCode: string = `<html>
-
-  <head>
-    <style>
-      @import url('https://fonts.googleapis.com/css? 
-  family=Roboto:300, 300i, 400, 400i');
-    </style>
-  
-    <style>
-      html,
-      body {
-        font-family: 'Roboto', sans-serif;
-      }
-  
-      #btn {
-        background-color: #fafafa;
-        border: 1px solid #444;
-        border-radius: 5px;
-        padding: 1em;
-      }
-  
-      h1 {
-        display: inline-block;
-        padding: 0.5em;
-        font-weight: normal;
-        background: #444444;
-        color: #fcfcfc;
-        border-radius: 5px;
-        font-size: 3em;
-      }
-  
-      h2 {
-        font-weight: normal;
-      }
-  
-      #container {
-        text-align: center;
-        padding-top: 3em;
-      }
-    </style>
-  </head>
-  
-  <body>
-    <script>
-      document.addEventListener("DOMContentLoaded", function (event) {
-                document.getElementById("btn").onclick = function () {
-                    Micro.post(
-                    "helloworld/call",
-                        "backend",
-                        {
-                            name: "Joe",
-                        },
-                        function (data) {
-                            alert(JSON.stringify(data))
-                        }
-                    );
-                }
-            });
-    </script>
-  
-    <div id="container">
-      <div>
-        <h1>
-          Embed scripts on any site
-        </h1>
-        <div>
-          <h2>
-            Have access to a wide range of APIs like a database, users service and
-            more.
-          </h2>
-        </div>
-        <div>
-          <h2>
-            You will never need a backend again.
-          </h2>
-        </div>
-      </div>
-      <div>
-        <button id="btn">Click to call Helloworld service</button>
-      </div>
-    </div>
-  </body>
-  
-  </html>`;
+  tsCode: string = `document.addEventListener("DOMContentLoaded", function (event) {
+    document.getElementById("btn").onclick = function () {
+        Micro.post(
+        "helloworld/call",
+            "backend",
+            {
+                name: "Joe",
+            },
+            function (data) {
+                alert(JSON.stringify(data))
+            }
+        );
+    }
+});`;
   tsCodeRendered: string = ``;
 
   htmlEditorOptions = {
@@ -148,7 +89,28 @@ export class GistEditComponent implements OnInit {
       horizontal: 'hidden',
     },
   };
-  htmlCode = '<div>\n\t\n</div>';
+  htmlCode = `<div id="container">
+  <div>
+    <h1>
+      Embed scripts on any site
+    </h1>
+    <div>
+      <h2>
+        Have access to a wide range of APIs like a database, users service and
+        more.
+      </h2>
+    </div>
+    <div>
+      <h2>
+        You will never need a backend again.
+      </h2>
+    </div>
+  </div>
+  <div>
+    <button id="btn">Click to call Helloworld service</button>
+  </div>
+</div>`;
+  htmlCodeRendered = '';
 
   cssEditorOptions = {
     theme: 'vs-dark',
@@ -170,7 +132,37 @@ export class GistEditComponent implements OnInit {
       horizontal: 'hidden',
     },
   };
-  cssCode = 'div {\n\t\n}';
+  cssCode = `html,
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+#btn {
+  background-color: #fafafa;
+  border: 1px solid #444;
+  border-radius: 5px;
+  padding: 1em;
+}
+
+h1 {
+  display: inline-block;
+  padding: 0.5em;
+  font-weight: normal;
+  background: #444444;
+  color: #fcfcfc;
+  border-radius: 5px;
+  font-size: 3em;
+}
+
+h2 {
+  font-weight: normal;
+}
+
+#container {
+  text-align: center;
+  padding-top: 3em;
+};`;
+  cssCodeRendered = '';
 
   constructor(private route: ActivatedRoute, private fs: FileService) {}
 
@@ -180,6 +172,7 @@ export class GistEditComponent implements OnInit {
         this.id = params.get('id');
       } else {
         this.render();
+        return;
       }
 
       this.fs.list(this.id).then((files) => {
@@ -199,7 +192,6 @@ export class GistEditComponent implements OnInit {
           fs[0].forEach((f) => {
             if (f.path.includes('main')) {
               this.tsCode = f.file_contents;
-              this.render();
             }
             if (f.path.includes('index')) {
               this.htmlCode = f.file_contents;
@@ -208,6 +200,7 @@ export class GistEditComponent implements OnInit {
             if (f.path.includes('style')) {
               this.cssCode = f.file_contents;
             }
+            this.render();
           });
         }
       });
@@ -223,24 +216,26 @@ export class GistEditComponent implements OnInit {
         is_directory: false,
         project: this.id,
       },
-      //{
-      //  id: this.id + ':' + 'index.html',
-      //  path: 'index.html',
-      //  file_contents: this.htmlCode,
-      //  is_directory: false,
-      //  project: this.id,
-      //},
-      //{
-      //  id: this.id + ':' + 'style.css',
-      //  path: 'style.css',
-      //  file_contents: this.cssCode,
-      //  is_directory: false,
-      //  project: this.id,
-      //},
+      {
+        id: this.id + ':' + 'index.html',
+        path: 'index.html',
+        file_contents: this.htmlCode,
+        is_directory: false,
+        project: this.id,
+      },
+      {
+        id: this.id + ':' + 'style.css',
+        path: 'style.css',
+        file_contents: this.cssCode,
+        is_directory: false,
+        project: this.id,
+      },
     ]);
   }
 
   render() {
     this.tsCodeRendered = this.tsCode;
+    this.htmlCodeRendered = this.htmlCode;
+    this.cssCodeRendered = this.cssCode;
   }
 }
