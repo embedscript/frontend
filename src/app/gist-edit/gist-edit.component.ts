@@ -27,7 +27,7 @@ function makeid(length) {
   styleUrls: ['./gist-edit.component.css'],
 })
 export class GistEditComponent implements OnInit {
-  id: string = 'embed-script' + makeid(8);
+  id: string = 'example-script';
   @Input() edit: boolean = false;
 
   // @todo automatic layout doesnt seem to fix the issue of
@@ -53,20 +53,7 @@ export class GistEditComponent implements OnInit {
       horizontal: 'hidden',
     },
   };
-  tsCode: string = `document.addEventListener("DOMContentLoaded", function (event) {
-    document.getElementById("btn").onclick = function () {
-        Micro.post(
-        "helloworld/call",
-            "backend",
-            {
-                name: "Joe",
-            },
-            function (data) {
-                alert(JSON.stringify(data))
-            }
-        );
-    }
-});`;
+  tsCode: string = ``;
   tsCodeRendered: string = ``;
 
   htmlEditorOptions = {
@@ -89,27 +76,7 @@ export class GistEditComponent implements OnInit {
       horizontal: 'hidden',
     },
   };
-  htmlCode = `<div id="container">
-  <div>
-    <h1>
-      Embed scripts on any site
-    </h1>
-    <div>
-      <h2>
-        Have access to a wide range of APIs like a database, users service and
-        more.
-      </h2>
-    </div>
-    <div>
-      <h2>
-        You will never need a backend again.
-      </h2>
-    </div>
-  </div>
-  <div>
-    <button id="btn">Click to call Helloworld service</button>
-  </div>
-</div>`;
+  htmlCode = ``;
   htmlCodeRendered = '';
 
   cssEditorOptions = {
@@ -132,36 +99,7 @@ export class GistEditComponent implements OnInit {
       horizontal: 'hidden',
     },
   };
-  cssCode = `html,
-body {
-  font-family: 'Roboto', sans-serif;
-}
-
-#btn {
-  background-color: #fafafa;
-  border: 1px solid #444;
-  border-radius: 5px;
-  padding: 1em;
-}
-
-h1 {
-  display: inline-block;
-  padding: 0.5em;
-  font-weight: normal;
-  background: #444444;
-  color: #fcfcfc;
-  border-radius: 5px;
-  font-size: 3em;
-}
-
-h2 {
-  font-weight: normal;
-}
-
-#container {
-  text-align: center;
-  padding-top: 3em;
-};`;
+  cssCode = ``;
   cssCodeRendered = '';
 
   constructor(private route: ActivatedRoute, private fs: FileService) {}
@@ -172,7 +110,6 @@ h2 {
         this.id = params.get('id');
       } else {
         this.render();
-        return;
       }
 
       this.fs.list(this.id).then((files) => {

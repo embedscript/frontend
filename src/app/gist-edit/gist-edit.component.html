@@ -85,6 +85,11 @@
               id
             }}"&gt;&lt;/iframe&gt;
           </div>
+          <br /> <br />
+          <div>
+            <button mat-raised-button color="primary">Copy</button>&nbsp;&nbsp;
+            <button mat-raised-button (click)="edit = true">Edit script</button>
+          </div>
         </div>
       </div>
     </div>
@@ -98,14 +103,7 @@
       ></app-render>
     </div>
   </div>
-  <button
-    *ngIf="edit == false"
-    mat-raised-button
-    (click)="edit = true"
-    color="primary"
-  >
-    Edit
-  </button>
+
   <button *ngIf="edit == true" mat-raised-button (click)="edit = false">
     Cancel Edit</button
   >&nbsp;&nbsp;
