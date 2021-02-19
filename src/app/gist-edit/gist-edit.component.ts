@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import * as d from '../data';
 import * as t from '../types';
 import * as files from '@m3o/services/files';
@@ -17,6 +17,7 @@ import * as _ from 'lodash';
 })
 export class GistEditComponent implements OnInit {
   id: string = 'name-this-script-please';
+  @Input() edit: boolean = false;
 
   // @todo automatic layout doesnt seem to fix the issue of
   // monaco editor not snapping back to flexlayout defined size
@@ -24,7 +25,8 @@ export class GistEditComponent implements OnInit {
   tsEditorOptions = {
     language: 'html',
     automaticLayout: true,
-    theme: 'vs-light',
+    //theme: 'vs-light',
+    theme: 'vs-dark',
     folding: false,
     glyphMargin: false,
     //lineNumbers: false,
@@ -113,7 +115,7 @@ export class GistEditComponent implements OnInit {
         </div>
         <div>
           <h2>
-            You will never neeed a backend again.
+            You will never need a backend again.
           </h2>
         </div>
       </div>
@@ -126,11 +128,49 @@ export class GistEditComponent implements OnInit {
   </html>`;
   tsCodeRendered: string = ``;
 
-  //htmlEditorOptions = { theme: 'vs-dark', language: 'html' };
-  //htmlCode = '<div>\n\t\n</div>';
+  htmlEditorOptions = {
+    theme: 'vs-dark',
+    language: 'html',
+    automaticLayout: true,
+    //theme: 'vs-light',
+    folding: false,
+    glyphMargin: false,
+    //lineNumbers: false,
+    lineDecorationsWidth: 0,
+    lineNumbersMinChars: 0,
+    renderLineHighlight: false,
+    renderIndentGuides: false,
+    minimap: {
+      enabled: false,
+    },
+    scrollbar: {
+      vertical: 'hidden',
+      horizontal: 'hidden',
+    },
+  };
+  htmlCode = '<div>\n\t\n</div>';
 
-  //cssEditorOptions = { theme: 'vs-dark', language: 'css' };
-  //cssCode = 'div {\n\t\n}';
+  cssEditorOptions = {
+    theme: 'vs-dark',
+    language: 'css',
+    automaticLayout: true,
+    //theme: 'vs-light',
+    folding: false,
+    glyphMargin: false,
+    //lineNumbers: false,
+    lineDecorationsWidth: 0,
+    lineNumbersMinChars: 0,
+    renderLineHighlight: false,
+    renderIndentGuides: false,
+    minimap: {
+      enabled: false,
+    },
+    scrollbar: {
+      vertical: 'hidden',
+      horizontal: 'hidden',
+    },
+  };
+  cssCode = 'div {\n\t\n}';
 
   constructor(private route: ActivatedRoute, private fs: FileService) {}
 
@@ -142,7 +182,7 @@ export class GistEditComponent implements OnInit {
         this.render();
       }
 
-      this.fs.list().then((files) => {
+      this.fs.list(this.id).then((files) => {
         var fs = _(files)
           .groupBy(function (v) {
             return v.project;
@@ -161,13 +201,13 @@ export class GistEditComponent implements OnInit {
               this.tsCode = f.file_contents;
               this.render();
             }
-            //if (f.path.includes('index')) {
-            //  this.htmlCode = f.file_contents;
-            //}
+            if (f.path.includes('index')) {
+              this.htmlCode = f.file_contents;
+            }
 
-            //if (f.path.includes('style')) {
-            //  this.cssCode = f.file_contents;
-            //}
+            if (f.path.includes('style')) {
+              this.cssCode = f.file_contents;
+            }
           });
         }
       });

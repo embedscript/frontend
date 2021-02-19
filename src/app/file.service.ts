@@ -15,12 +15,16 @@ export class FileService {
 
   constructor(private us: UserService, private http: HttpClient) {}
 
-  list(): Promise<files.File[]> {
+  list(project? : string): Promise<files.File[]> {
+    var req: files.ListRequest = {}
+    if (project) {
+      req.project = project
+    }
     return new Promise<files.File[]>((resolve, reject) => {
       var headers = {
         //"micro-namespace": this.us.namespace(),
         "Micro-Namespace": environment.namespace,
-      }
+      } 
       if (this.us.token().length > 0) {
         headers['authorization'] = this.us.token()
 
@@ -28,11 +32,7 @@ export class FileService {
       return this.http
         .post<files.ListResponse>(
           environment.apiUrl + "/files/list",
-          {
-            //options: {
-            // namespace: this.us.namespace(),
-            //},
-          },
+          req,
           {
             headers: headers,
           }

@@ -3,21 +3,22 @@
   <mat-card-title> </mat-card-title>
   <mat-form-field appearance="outline">
     <mat-label>Name of the script</mat-label>
-    <input matInput [(ngModel)]="id" />
+    <input [disabled]="edit == false" matInput [(ngModel)]="id" />
   </mat-form-field>
-  <br />
-  <!--
+  &nbsp;&nbsp;
   <mat-button-toggle-group
+    [hidden]="edit == true"
     #toggle="matButtonToggleGroup"
     value="ts"
     name="fontStyle"
+    style="position: relative; top: -3px"
     aria-label="Font Style"
   >
     <mat-button-toggle selected="true" value="ts">Javascript</mat-button-toggle>
     <mat-button-toggle value="html">HTML</mat-button-toggle>
     <mat-button-toggle value="css">CSS</mat-button-toggle>
   </mat-button-toggle-group>
--->
+  <br />
 
   <div
     fxLayout="row wrap"
@@ -26,6 +27,7 @@
     id="search-section"
   >
     <div
+      *ngIf="edit == true"
       style="margin-bottom: 1em"
       fxFlex="0 1 100%"
       style="height: 35em"
@@ -33,17 +35,82 @@
       fxFlex.gt-md="0 1 calc(50% - 16px)"
     >
       <ngx-monaco-editor
-        width="100%"
-        style="height: 35em"
+        style="height: 100%"
+        *ngIf="toggle?.value == 'ts'"
         [options]="tsEditorOptions"
         [(ngModel)]="tsCode"
       ></ngx-monaco-editor>
+
+      <ngx-monaco-editor
+        style="height: 100%"
+        *ngIf="toggle?.value == 'html'"
+        [options]="htmlEditorOptions"
+        [(ngModel)]="htmlCode"
+      ></ngx-monaco-editor>
+
+      <ngx-monaco-editor
+        style="height: 100%"
+        *ngIf="toggle?.value == 'css'"
+        [options]="cssEditorOptions"
+        [(ngModel)]="cssCode"
+      >
+      </ngx-monaco-editor>
+    </div>
+    <div
+      fxFlex.lt-lg="0 1 100%"
+      fxFlex.gt-md="0 1 calc(50% - 16px)"
+      style="height: 35em"
+      class="outer"
+      *ngIf="edit == false"
+    >
+      <div class="middle" style="width: 100%">
+        <div class="inner" style="width: 100%">
+          <div style="font-size: 1.5em">
+            Embed this script by copying this iframe to your website:
+          </div>
+          <br />
+          <div
+            style="
+              font-size: 1.5em;
+              display: inline-block;
+              padding: 1em;
+              border-radius: 5px;
+              background: #f1f1f1;
+            "
+          >
+          &lt;iframe src="https://backend.m3o.dev/v1/serve?project={{ id }}"&gt;&lt;/iframe&gt;
+          </div>
+        </div>
+      </div>
     </div>
     <div fxFlex.lt-lg="0 1 100%" fxFlex.gt-md="0 1 calc(50% - 16px)">
-      <app-render height="20em" width="100%" [tsCode]="tsCodeRendered"></app-render>
+      <app-render
+        height="20em"
+        width="100%"
+        [tsCode]="tsCodeRendered"
+      ></app-render>
     </div>
   </div>
-  <button mat-raised-button (click)="render()">Render</button>&nbsp;&nbsp;
-  <button mat-raised-button (click)="save()" color="primary">Save</button>
-  <br /><br />
+  <button
+    *ngIf="edit == false"
+    mat-raised-button
+    (click)="edit = true"
+    color="primary"
+  >
+    Edit
+  </button>
+  <button *ngIf="edit == true" mat-raised-button (click)="edit = false">
+    Cancel Edit</button
+  >&nbsp;&nbsp;
+  <button *ngIf="edit == true" mat-raised-button (click)="render()">
+    Render</button
+  >&nbsp;&nbsp;
+  <button
+    *ngIf="edit == true"
+    mat-raised-button
+    (click)="save()"
+    color="primary"
+  >
+    Save
+  </button>
 </mat-card>
