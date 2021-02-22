@@ -1,6 +1,6 @@
 import { rendererTypeName } from '@angular/compiler';
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-render',
@@ -8,32 +8,19 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   styleUrls: ['./render.component.css'],
 })
 export class RenderComponent implements OnInit, OnChanges {
-  @Input() cssCode: string;
-  @Input() tsCode: string;
-  @Input() htmlCode: string;
+  @Input() name: string;
 
   code: SafeHtml;
 
   constructor(private _sanitizer: DomSanitizer) {}
 
-  ngOnInit(): void {
-    this.render();
-  }
+  ngOnInit(): void {}
 
-  ngOnChanges(): void {
-    this.render();
-  }
+  ngOnChanges(): void {}
 
-  render() {
-    this.code = this._sanitizer.bypassSecurityTrustHtml(
-      '<html><head><script src="https://embedscript.com/assets/micro.js"></script></head><body>' +
-        `<style>` +
-        this.cssCode +
-        `</style><script>` +
-        this.tsCode +
-        `</script>` +
-        this.htmlCode +
-        '</body></html>'
+  iframeURL(): SafeUrl {
+    return this._sanitizer.bypassSecurityTrustResourceUrl(
+      'https://backend.m3o.dev/v1/serve?project=' + this.name
     );
   }
 }
