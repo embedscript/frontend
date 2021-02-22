@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import * as d from '../data';
 import * as t from '../types';
 import * as files from '@m3o/services/files';
+import { UserService } from '../user.service';
 import { FileService } from '../file.service';
 import { ActivatedRoute } from '@angular/router';
 import { mainModule } from 'process';
@@ -27,7 +28,8 @@ function makeid(length) {
   styleUrls: ['./gist-edit.component.css'],
 })
 export class GistEditComponent implements OnInit {
-  id: string = 'example-script';
+  id: string = 'helloworld';
+  edited = false;
   @Input() edit: boolean = false;
 
   // @todo automatic layout doesnt seem to fix the issue of
@@ -78,6 +80,7 @@ export class GistEditComponent implements OnInit {
   };
   htmlCode = ``;
   htmlCodeRendered = '';
+  owner = '';
 
   cssEditorOptions = {
     theme: 'vs-dark',
@@ -102,7 +105,11 @@ export class GistEditComponent implements OnInit {
   cssCode = ``;
   cssCodeRendered = '';
 
-  constructor(private route: ActivatedRoute, private fs: FileService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private fs: FileService,
+    private us: UserService
+  ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -111,47 +118,52 @@ export class GistEditComponent implements OnInit {
       } else {
         this.render();
       }
-
-      this.fs.list(this.id).then((files) => {
-        var fs = _(files)
-          .groupBy(function (v) {
-            return v.project;
-          })
-          .map(function (items) {
-            return items;
-          })
-          .filter((v) => {
-            return v[0].project == this.id;
-          })
-          .value();
-
-        if (fs.length > 0) {
-          fs[0].forEach((f) => {
-            if (f.path.includes('main')) {
-              this.tsCode = f.file_contents;
-            }
-            if (f.path.includes('index')) {
-              this.htmlCode = f.file_contents;
-            }
-
-            if (f.path.includes('style')) {
-              this.cssCode = f.file_contents;
-            }
-            this.render();
-          });
-        }
-      });
+      this.load();
     });
   }
 
-  save(): void {
-    this.fs.save([
+  load(): void {
+    this.fs.list(this.id).then((files) => {
+      var fs = _(files)
+        .groupBy(function (v) {
+          return v.project;
+        })
+        .map(function (items) {
+          return items;
+        })
+        .filter((v) => {
+          return v[0].project == this.id;
+        })
+        .value();
+
+      if (fs.length > 0) {
+        fs[0].forEach((f) => {
+          this.owner = f.owner;
+          if (f.path.includes('main')) {
+            this.tsCode = f.file_contents;
+          }
+          if (f.path.includes('index')) {
+            this.htmlCode = f.file_contents;
+          }
+
+          if (f.path.includes('style')) {
+            this.cssCode = f.file_contents;
+          }
+          this.render();
+        });
+      }
+    });
+  }
+
+  save(): Promise<void> {
+    return this.fs.save([
       {
         id: this.id + ':' + 'main.ts',
         path: 'main.ts',
         file_contents: this.tsCode,
         is_directory: false,
         project: this.id,
+        owner: this.us.user.id,
       },
       {
         id: this.id + ':' + 'index.html',
@@ -159,6 +171,7 @@ export class GistEditComponent implements OnInit {
         file_contents: this.htmlCode,
         is_directory: false,
         project: this.id,
+        owner: this.us.user.id,
       },
       {
         id: this.id + ':' + 'style.css',
@@ -166,8 +179,20 @@ export class GistEditComponent implements OnInit {
         file_contents: this.cssCode,
         is_directory: false,
         project: this.id,
+        owner: this.us.user.id,
       },
     ]);
+  }
+
+  editView() {
+    if (!this.edited && this.us.user.id != this.owner) {
+      this.id += '-' + makeid(6);
+      this.save().then(() => {
+        this.load();
+      });
+    }
+    this.edited = true;
+    this.edit = true;
   }
 
   render() {

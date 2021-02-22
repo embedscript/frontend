@@ -88,18 +88,16 @@
           <br /> <br />
           <div>
             <button mat-raised-button color="primary">Copy</button>&nbsp;&nbsp;
-            <button mat-raised-button (click)="edit = true">Edit script</button>
+            <button mat-raised-button (click)="editView()">Edit script</button>
           </div>
         </div>
       </div>
     </div>
     <div fxFlex.lt-lg="0 1 100%" fxFlex.gt-md="0 1 calc(50% - 16px)">
-      <app-render
+      <app-render *ngIf="id"
         height="20em"
         width="100%"
-        [tsCode]="tsCodeRendered"
-        [htmlCode]="htmlCodeRendered"
-        [cssCode]="cssCodeRendered"
+        [name]="id"
       ></app-render>
     </div>
   </div>
