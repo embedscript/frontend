@@ -88,7 +88,8 @@
           <br /> <br />
           <div>
             <button mat-raised-button color="primary">Copy</button>&nbsp;&nbsp;
-            <button mat-raised-button (click)="editView()">Edit script</button>
+            <button mat-raised-button *ngIf="loggedIn" (click)="editView()">Edit script</button>
+            <button mat-raised-button *ngIf="!loggedIn" routerLink="login">Log in to edit script</button>
           </div>
         </div>
       </div>

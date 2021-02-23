@@ -29,6 +29,7 @@
     "ngx-cookie-service": "^11.0.2",
     "ngx-markdown": "^10.1.1",
     "ngx-monaco-editor": "^9.0.0",
+    "ngx-toastr": "^13.2.0",
     "random-words": "^1.1.1",
     "roboto-fontface": "^0.10.0",
     "rxjs": "~6.6.0",
