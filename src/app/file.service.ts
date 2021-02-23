@@ -66,9 +66,11 @@ export class FileService {
         )
         .toPromise()
         .then((servs) => {
+          alert("succ")
           resolve();
         })
         .catch((e) => {
+          alert("fail")
           reject(e);
         });
     });

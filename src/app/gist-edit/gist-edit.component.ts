@@ -5,8 +5,8 @@ import * as files from '@m3o/services/files';
 import { UserService } from '../user.service';
 import { FileService } from '../file.service';
 import { ActivatedRoute } from '@angular/router';
-import { mainModule } from 'process';
 import * as _ from 'lodash';
+import { ToastrService } from 'ngx-toastr';
 
 function makeid(length) {
   var result = '';
@@ -28,6 +28,7 @@ function makeid(length) {
   styleUrls: ['./gist-edit.component.css'],
 })
 export class GistEditComponent implements OnInit {
+  loggedIn = false;
   id: string = 'helloworld';
   edited = false;
   @Input() edit: boolean = false;
@@ -108,7 +109,8 @@ export class GistEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private fs: FileService,
-    private us: UserService
+    private us: UserService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -119,6 +121,9 @@ export class GistEditComponent implements OnInit {
         this.render();
       }
       this.load();
+    });
+    this.us.isUserLoggedIn.subscribe((v) => {
+      this.loggedIn = v;
     });
   }
 
@@ -156,40 +161,56 @@ export class GistEditComponent implements OnInit {
   }
 
   save(): Promise<void> {
-    return this.fs.save([
-      {
-        id: this.id + ':' + 'main.ts',
-        path: 'main.ts',
-        file_contents: this.tsCode,
-        is_directory: false,
-        project: this.id,
-        owner: this.us.user.id,
-      },
-      {
-        id: this.id + ':' + 'index.html',
-        path: 'index.html',
-        file_contents: this.htmlCode,
-        is_directory: false,
-        project: this.id,
-        owner: this.us.user.id,
-      },
-      {
-        id: this.id + ':' + 'style.css',
-        path: 'style.css',
-        file_contents: this.cssCode,
-        is_directory: false,
-        project: this.id,
-        owner: this.us.user.id,
-      },
-    ]);
+    return this.fs
+      .save([
+        {
+          id: this.id + ':' + 'main.ts',
+          path: 'main.ts',
+          file_contents: this.tsCode,
+          is_directory: false,
+          project: this.id,
+          owner: this.us.user.id,
+        },
+        {
+          id: this.id + ':' + 'index.html',
+          path: 'index.html',
+          file_contents: this.htmlCode,
+          is_directory: false,
+          project: this.id,
+          owner: this.us.user.id,
+        },
+        {
+          id: this.id + ':' + 'style.css',
+          path: 'style.css',
+          file_contents: this.cssCode,
+          is_directory: false,
+          project: this.id,
+          owner: this.us.user.id,
+        },
+      ])
+      .catch((e) => {
+        console.log('hii');
+        this.toastr.error(e.error.Detail);
+      });
   }
 
   editView() {
+    if (!this.us.user || !this.us.user.id) {
+      this.toastr.error('Log in first to edit a script');
+      return;
+    }
+    if (!this.owner) {
+      this.toastr.error('Script has no owner... something is wrong');
+      return;
+    }
     if (!this.edited && this.us.user.id != this.owner) {
       this.id += '-' + makeid(6);
       this.save().then(() => {
         this.load();
+        this.edited = true;
+        this.edit = true;
       });
+      return;
     }
     this.edited = true;
     this.edit = true;
