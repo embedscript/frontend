@@ -85,29 +85,36 @@
               id
             }}"&gt;&lt;/iframe&gt;
           </div>
-          <br /> <br />
+          <br />
+          <br />
           <div>
             <button mat-raised-button color="primary">Copy</button>&nbsp;&nbsp;
-            <button mat-raised-button *ngIf="loggedIn" (click)="editView()">Edit script</button>
-            <button mat-raised-button *ngIf="!loggedIn" routerLink="login">Log in to edit script</button>
+            <button mat-raised-button *ngIf="loggedIn" (click)="editView()">
+              Edit script
+            </button>
+            <button mat-raised-button *ngIf="!loggedIn" routerLink="login">
+              Log in to edit script
+            </button>
           </div>
         </div>
       </div>
     </div>
     <div fxFlex.lt-lg="0 1 100%" fxFlex.gt-md="0 1 calc(50% - 16px)">
-      <app-render *ngIf="id"
-        height="20em"
-        width="100%"
-        [name]="id"
-      ></app-render>
+      <ng-template #content>
+        <app-render
+          *ngIf="id"
+          height="20em"
+          width="100%"
+          [name]="id"
+        ></app-render>
+      </ng-template>
+      <ng-template #loading> Loading... </ng-template>
+      <ng-container #outlet> </ng-container>
     </div>
   </div>
 
   <button *ngIf="edit == true" mat-raised-button (click)="edit = false">
     Cancel Edit</button
-  >&nbsp;&nbsp;
-  <button *ngIf="edit == true" mat-raised-button (click)="render()">
-    Render</button
   >&nbsp;&nbsp;
   <button
     *ngIf="edit == true"
@@ -115,6 +122,6 @@
     (click)="save()"
     color="primary"
   >
-    Save
+    Save & Render
   </button>
 </mat-card>

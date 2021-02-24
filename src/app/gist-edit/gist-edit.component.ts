@@ -1,4 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewContainerRef,
+  ViewChild,
+  TemplateRef,
+} from '@angular/core';
 import * as d from '../data';
 import * as t from '../types';
 import * as files from '@m3o/services/files';
@@ -28,7 +35,12 @@ function makeid(length) {
   styleUrls: ['./gist-edit.component.css'],
 })
 export class GistEditComponent implements OnInit {
+  @ViewChild('outlet', { read: ViewContainerRef }) outletRef: ViewContainerRef;
+  @ViewChild('content', { read: TemplateRef }) contentRef: TemplateRef<any>;
+  @ViewChild('loading', { read: TemplateRef }) loadingRef: TemplateRef<any>;
+
   loggedIn = false;
+  loading = false;
   id: string = 'helloworld';
   edited = false;
   @Input() edit: boolean = false;
@@ -51,10 +63,10 @@ export class GistEditComponent implements OnInit {
     minimap: {
       enabled: false,
     },
-    scrollbar: {
-      vertical: 'hidden',
-      horizontal: 'hidden',
-    },
+    //scrollbar: {
+    //  vertical: 'hidden',
+    //  horizontal: 'hidden',
+    //},
   };
   tsCode: string = ``;
   tsCodeRendered: string = ``;
@@ -74,13 +86,12 @@ export class GistEditComponent implements OnInit {
     minimap: {
       enabled: false,
     },
-    scrollbar: {
-      vertical: 'hidden',
-      horizontal: 'hidden',
-    },
+    //scrollbar: {
+    //  vertical: 'hidden',
+    //  horizontal: 'hidden',
+    //},
   };
   htmlCode = ``;
-  htmlCodeRendered = '';
   owner = '';
 
   cssEditorOptions = {
@@ -98,13 +109,12 @@ export class GistEditComponent implements OnInit {
     minimap: {
       enabled: false,
     },
-    scrollbar: {
-      vertical: 'hidden',
-      horizontal: 'hidden',
-    },
+    //scrollbar: {
+    //  vertical: 'hidden',
+    //  horizontal: 'hidden',
+    //},
   };
   cssCode = ``;
-  cssCodeRendered = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -117,12 +127,10 @@ export class GistEditComponent implements OnInit {
     this.route.paramMap.subscribe((params) => {
       if (params.get('id')) {
         this.id = params.get('id');
-      } else {
-        this.render();
       }
       this.load();
     });
-    this.loggedIn = this.us.user?.id != ""
+    this.loggedIn = this.us.user?.id != '';
     this.us.isUserLoggedIn.subscribe((v) => {
       this.loggedIn = v;
     });
@@ -155,13 +163,21 @@ export class GistEditComponent implements OnInit {
           if (f.path.includes('style')) {
             this.cssCode = f.file_contents;
           }
-          this.render();
         });
       }
     });
   }
 
+  ngAfterViewInit() {
+    console.log('hi');
+    this.outletRef.createEmbeddedView(this.contentRef);
+  }
+
   save(): Promise<void> {
+    this.outletRef.clear()
+    this.outletRef.createEmbeddedView(this.loadingRef);
+    this.loading = true;
+  
     return this.fs
       .save([
         {
@@ -189,8 +205,12 @@ export class GistEditComponent implements OnInit {
           owner: this.us.user.id,
         },
       ])
+      .then(() => {
+        this.outletRef.clear();
+        this.outletRef.createEmbeddedView(this.contentRef);
+        this.loading = false;
+      })
       .catch((e) => {
-        console.log('hii');
         this.toastr.error(e.error.Detail);
       });
   }
@@ -215,11 +235,5 @@ export class GistEditComponent implements OnInit {
     }
     this.edited = true;
     this.edit = true;
-  }
-
-  render() {
-    this.tsCodeRendered = this.tsCode;
-    this.htmlCodeRendered = this.htmlCode;
-    this.cssCodeRendered = this.cssCode;
   }
 }

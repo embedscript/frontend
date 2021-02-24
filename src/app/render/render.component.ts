@@ -11,10 +11,13 @@ export class RenderComponent implements OnInit, OnChanges {
   @Input() name: string;
 
   code: SafeHtml;
+  iframe: SafeUrl;
 
   constructor(private _sanitizer: DomSanitizer) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.iframe = this.iframeURL();
+  }
 
   ngOnChanges(): void {}
 
