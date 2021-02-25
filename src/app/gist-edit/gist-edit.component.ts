@@ -232,7 +232,6 @@ export class GistEditComponent implements OnInit {
       });
       return;
     }
-    this.edited = true;
-    this.edit = true;
+    this.save();
   }
 }
