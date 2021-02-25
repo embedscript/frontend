@@ -1,27 +1,27 @@
-import { Component, OnInit } from "@angular/core";
-import { UserService } from "../user.service";
-import { environment } from "../../environments/environment";
-import { Router } from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { UserService } from '../user.service';
+import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: "app-register",
-  templateUrl: "./register.component.html",
-  styleUrls: ["./register.component.css"],
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
-  email: string = "";
-  password: string = "";
+  email: string = '';
+  password: string = '';
   verifySent = false;
-  verificationCode: string = "";
+  verificationCode: string = '';
 
   constructor(
     private us: UserService,
     private router: Router,
     private toastr: ToastrService
   ) {
-    if (this.us.refreshToken() != "") {
-      this.router.navigate(["/services"]);
+    if (this.us.refreshToken() != '') {
+      this.router.navigate(['/']);
       return;
     }
   }
@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit {
     this.us
       .verify(this.email, this.password, this.verificationCode)
       .then(() => {
-        document.location.href = "/services";
+        document.location.href = '/';
       })
       .catch((e) => {
         this.toastr.error(e.error.Detail);

@@ -169,15 +169,14 @@ export class GistEditComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    console.log('hi');
     this.outletRef.createEmbeddedView(this.contentRef);
   }
 
   save(): Promise<void> {
-    this.outletRef.clear()
+    this.outletRef.clear();
     this.outletRef.createEmbeddedView(this.loadingRef);
     this.loading = true;
-  
+
     return this.fs
       .save([
         {
@@ -216,15 +215,15 @@ export class GistEditComponent implements OnInit {
   }
 
   editView() {
+    this.edit = true;
+  }
+
+  saveGuard() {
     if (!this.us.user || !this.us.user.id) {
       this.toastr.error('Log in first to edit a script');
       return;
     }
-    if (!this.owner) {
-      this.toastr.error('Script has no owner... something is wrong');
-      return;
-    }
-    if (!this.edited && this.us.user.id != this.owner) {
+    if (!this.edited && (!this.owner || this.us.user.id != this.owner)) {
       this.id += '-' + makeid(6);
       this.save().then(() => {
         this.load();

@@ -90,7 +90,7 @@
           <div>
             <button mat-raised-button color="primary">Copy</button>&nbsp;&nbsp;
             <button mat-raised-button *ngIf="loggedIn" (click)="editView()">
-              Edit script
+              View script
             </button>
             <button mat-raised-button *ngIf="!loggedIn" routerLink="login">
               Log in to edit script
@@ -119,7 +119,7 @@
   <button
     *ngIf="edit == true"
     mat-raised-button
-    (click)="save()"
+    (click)="saveGuard()"
     color="primary"
   >
     Save & Render
