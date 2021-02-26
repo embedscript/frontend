@@ -30,7 +30,8 @@ function setCookie(name, value, days) {
     date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
     expires = "; expires=" + date.toUTCString();
   }
-  document.cookie = name + "=" + (value || "") + expires + "; path=/";
+  https://stackoverflow.com/questions/45094712/iframe-not-reading-cookies-in-chrome
+  document.cookie = name + "=" + (value || "") + expires + "; samesite=none; secure=true; path=/";
 }
 
 function getCookie(name) {
