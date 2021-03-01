@@ -126,6 +126,7 @@ function postCall(path, namespace, params, callback, useToken) {
   };
   xmlHttp.open("POST", "https://api.m3o.dev/" + path, true); // true for asynchronous
   xmlHttp.setRequestHeader("micro-namespace", namespace);
+  xmlHttp.setRequestHeader('Content-Type', 'application/json');
   if (useToken && getCookie("micro_access")) {
     xmlHttp.setRequestHeader("authorization", "Bearer " + getCookie("micro_access"));
   }
