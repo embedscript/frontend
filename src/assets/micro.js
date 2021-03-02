@@ -121,8 +121,9 @@ function post(path, namespace, params, callback) {
 function postCall(path, namespace, params, callback, useToken) {
   var xmlHttp = new XMLHttpRequest();
   xmlHttp.onreadystatechange = function () {
-    if (xmlHttp.readyState == 4) ;
-    callback(JSON.parse(xmlHttp.responseText), xmlHttp.status);
+    if (xmlHttp.readyState == 4 && xmlHttp.responseText != "") {
+      callback(JSON.parse(xmlHttp.responseText), xmlHttp.status);
+    }
   };
   xmlHttp.open("POST", "https://api.m3o.dev/" + path, true); // true for asynchronous
   xmlHttp.setRequestHeader("micro-namespace", namespace);
