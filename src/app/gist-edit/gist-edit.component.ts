@@ -14,6 +14,8 @@ import { FileService } from '../file.service';
 import { ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import { ToastrService } from 'ngx-toastr';
+import * as bcrypt from 'bcryptjs';
+import { Md5 } from 'ts-md5/dist/md5';
 
 function makeid(length) {
   var result = '';
@@ -170,6 +172,14 @@ export class GistEditComponent implements OnInit {
 
   ngAfterViewInit() {
     this.outletRef.createEmbeddedView(this.contentRef);
+  }
+
+  projectID(): string {
+    if (!this.us.user?.id) {
+      return '';
+    }
+    const md5 = new Md5();
+    return md5.appendStr(this.us.user.id).end().toString();
   }
 
   save(): Promise<void> {
