@@ -1,6 +1,6 @@
-import { rendererTypeName } from '@angular/compiler';
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { DomSanitizer, SafeHtml, SafeUrl } from '@angular/platform-browser';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-render',
@@ -13,17 +13,25 @@ export class RenderComponent implements OnInit, OnChanges {
   code: SafeHtml;
   iframe: SafeUrl;
 
-  constructor(private _sanitizer: DomSanitizer) {}
+  constructor(private _sanitizer: DomSanitizer, public us: UserService) {}
 
   ngOnInit(): void {
     this.iframe = this.iframeURL();
+    this.us.isUserLoggedIn.subscribe((v) => {
+      if (v) {
+        this.iframe = this.iframeURL();
+      }
+    });
   }
 
   ngOnChanges(): void {}
 
   iframeURL(): SafeUrl {
     return this._sanitizer.bypassSecurityTrustResourceUrl(
-      'https://backend.m3o.dev/v1/serve?project=' + this.name
+      'https://backend.m3o.dev/v1/serve?script=' +
+        this.name +
+        '&project=' +
+        this.us.projectID()
     );
   }
 }

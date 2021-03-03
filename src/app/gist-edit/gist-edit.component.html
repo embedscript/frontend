@@ -66,13 +66,14 @@
       class="outer"
       *ngIf="edit == false"
     >
-      <div class="middle" style="width: 100%">
+      <div class="middle" style="width: 100%; word-break: break-all">
         <div class="inner" style="width: 100%">
           <div style="font-size: 1.5em">
             Embed this script by copying this iframe to your website:
           </div>
           <br />
           <div
+            *ngIf="projectID()"
             style="
               font-size: 1.5em;
               display: inline-block;
@@ -81,9 +82,9 @@
               background: #f1f1f1;
             "
           >
-            &lt;iframe src="https://backend.m3o.dev/v1/serve?project={{
+            &lt;iframe src="https://backend.m3o.dev/v1/serve?script={{
               id
-            }}"&gt;&lt;/iframe&gt;
+            }}&project={{ projectID() }}"&gt;&lt;/iframe&gt;
           </div>
           <br />
           <br />
