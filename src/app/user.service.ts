@@ -234,6 +234,61 @@ export class UserService {
     });
   }
 
+  sendRecover(email: string): Promise<void> {
+    var headers = {
+      //"micro-namespace": this.us.namespace(),
+      'Micro-Namespace': environment.namespace,
+    };
+    return new Promise<void>((resolve, reject) => {
+      return this.http
+        .post<TokenResponse>(
+          environment.apiUrl + '/signup/recover',
+          {
+            email: email,
+          },
+          { headers: headers }
+        )
+        .toPromise()
+        .then((userResponse) => {
+          resolve();
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    });
+  }
+
+  resetPassword(
+    email: string,
+    token: string,
+    newPassword: string
+  ): Promise<void> {
+    var headers = {
+      //"micro-namespace": this.us.namespace(),
+      'Micro-Namespace': environment.namespace,
+    };
+    return new Promise<void>((resolve, reject) => {
+      return this.http
+        .post<TokenResponse>(
+          environment.apiUrl + '/signup/resetPassword',
+          {
+            email: email,
+            token: token,
+            password: newPassword,
+            namespace: environment.namespace,
+          },
+          { headers: headers }
+        )
+        .toPromise()
+        .then((userResponse) => {
+          resolve();
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    });
+  }
+
   verify(
     email: string,
     password: string,
