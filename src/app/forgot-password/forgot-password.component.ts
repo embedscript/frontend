@@ -5,11 +5,11 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css'],
+  selector: 'app-forgot-password',
+  templateUrl: './forgot-password.component.html',
+  styleUrls: ['./forgot-password.component.css'],
 })
-export class RegisterComponent implements OnInit {
+export class ForgotPasswordComponent implements OnInit {
   email: string = '';
   password: string = '';
   verifySent = false;
@@ -19,15 +19,13 @@ export class RegisterComponent implements OnInit {
     private us: UserService,
     private router: Router,
     private toastr: ToastrService
-  ) {
-
-  }
+  ) {}
 
   ngOnInit() {}
 
-  sendVerificationEmail() {
+  sendForgotPasswordEmail() {
     this.us
-      .sendVerification(this.email)
+      .sendRecover(this.email)
       .then(() => {
         this.verifySent = true;
       })
@@ -38,12 +36,14 @@ export class RegisterComponent implements OnInit {
 
   verify() {
     this.us
-      .verify(this.email, this.password, this.verificationCode)
+      .resetPassword(this.email, this.verificationCode, this.password)
       .then(() => {
-        document.location.href = '/';
+        this.router.navigateByUrl("/login")
       })
       .catch((e) => {
         this.toastr.error(e.error.Detail);
+      }).then(() => {
+        this.toastr.success("Please log in now.", "Successfully reset password");
       });
   }
 }
