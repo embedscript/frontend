@@ -20,10 +20,7 @@ export class RegisterComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService
   ) {
-    if (this.us.refreshToken() != '') {
-      this.router.navigate(['/']);
-      return;
-    }
+
   }
 
   ngOnInit() {}
