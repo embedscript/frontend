@@ -31,7 +31,6 @@ import { LoginComponent } from './login/login.component';
 import { RenderComponent } from './render/render.component';
 import { ToastrModule } from 'ngx-toastr';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { ScriptEditComponent } from './script-edit/script-edit.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +45,6 @@ import { ScriptEditComponent } from './script-edit/script-edit.component';
     LoginComponent,
     RenderComponent,
     ForgotPasswordComponent,
-    ScriptEditComponent,
   ],
   imports: [
     CommonModule,
