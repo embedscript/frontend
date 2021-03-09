@@ -18,3 +18,21 @@
   text-align: center;
   /*whatever width you want*/
 }
+
+.full {
+  width: 100%;
+}
+
+.clickable {
+  padding: 0.5em;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.clickable:hover {
+  background: #f2f2f2;
+}
+
+.selected {
+  text-decoration: underline;
+}
