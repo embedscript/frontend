@@ -43,9 +43,10 @@ export class GistEditComponent implements OnInit {
 
   loggedIn = false;
   loading = false;
+  page = 'render';
   id: string = 'helloworld';
   edited = false;
-  @Input() edit: boolean = false;
+  @Input() edit: boolean = true;
 
   // @todo automatic layout doesnt seem to fix the issue of
   // monaco editor not snapping back to flexlayout defined size
@@ -53,13 +54,13 @@ export class GistEditComponent implements OnInit {
   tsEditorOptions = {
     language: 'javascript',
     automaticLayout: true,
-    //theme: 'vs-light',
-    theme: 'vs-dark',
+    theme: 'vs-light',
+    //theme: 'vs-dark',
     folding: false,
     glyphMargin: false,
     //lineNumbers: false,
-    lineDecorationsWidth: 0,
-    lineNumbersMinChars: 0,
+    //lineDecorationsWidth: 0,
+    //lineNumbersMinChars: 0,
     renderLineHighlight: false,
     renderIndentGuides: false,
     minimap: {
@@ -74,15 +75,15 @@ export class GistEditComponent implements OnInit {
   tsCodeRendered: string = ``;
 
   htmlEditorOptions = {
-    theme: 'vs-dark',
+    //theme: 'vs-dark',
     language: 'html',
     automaticLayout: true,
-    //theme: 'vs-light',
+    theme: 'vs-light',
     folding: false,
-    glyphMargin: false,
-    //lineNumbers: false,
-    lineDecorationsWidth: 0,
-    lineNumbersMinChars: 0,
+    //glyphMargin: false,
+    // lineNumbers: false,
+    //lineDecorationsWidth: 0,
+    //lineNumbersMinChars: 0,
     renderLineHighlight: false,
     renderIndentGuides: false,
     minimap: {
@@ -97,17 +98,17 @@ export class GistEditComponent implements OnInit {
   owner = '';
 
   cssEditorOptions = {
-    theme: 'vs-dark',
+    //theme: 'vs-dark',
     language: 'css',
     automaticLayout: true,
-    //theme: 'vs-light',
+    theme: 'vs-light',
     folding: false,
     glyphMargin: false,
     //lineNumbers: false,
-    lineDecorationsWidth: 0,
-    lineNumbersMinChars: 0,
-    renderLineHighlight: false,
-    renderIndentGuides: false,
+    //lineDecorationsWidth: 0,
+    //lineNumbersMinChars: 0,
+    //renderLineHighlight: false,
+    //renderIndentGuides: false,
     minimap: {
       enabled: false,
     },
@@ -136,6 +137,10 @@ export class GistEditComponent implements OnInit {
     this.us.isUserLoggedIn.subscribe((v) => {
       this.loggedIn = v;
     });
+  }
+
+  setPage(page: string) {
+    this.page = page;
   }
 
   load(): void {
@@ -229,6 +234,7 @@ export class GistEditComponent implements OnInit {
   }
 
   saveGuard() {
+    this.page = 'render';
     if (!this.us.user || !this.us.user.id) {
       this.toastr.error('Log in first to edit a script');
       return;

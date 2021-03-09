@@ -1,128 +1,103 @@
-<br />
-<mat-card style="width: 95%; margin: 0 auto">
-  <mat-card-title> </mat-card-title>
-  <mat-form-field appearance="outline">
-    <mat-label>Name of the script</mat-label>
-    <input [disabled]="edit == false" matInput [(ngModel)]="id" />
-  </mat-form-field>
-  &nbsp;&nbsp;
-  <span [hidden]="edit != true"
-    ><mat-button-toggle-group
-      #toggle="matButtonToggleGroup"
-      value="ts"
-      name="fontStyle"
-      style="position: relative; top: -3px"
-      aria-label="Font Style"
-    >
-      <mat-button-toggle selected="true" value="ts"
-        >Javascript</mat-button-toggle
-      >
-      <mat-button-toggle value="html">HTML</mat-button-toggle>
-      <mat-button-toggle value="css">CSS</mat-button-toggle>
-    </mat-button-toggle-group></span
-  >
-  <br />
-
+<div style="height: calc(100% - 64px - 2em); margin: 0 auto; padding: 1em">
   <div
     fxLayout="row wrap"
-    fxLayoutGap.gt-md="32px"
+    *ngIf="edit == true"
+    style="height: 100%"
     fxLayoutAlign="space-between"
     id="search-section"
   >
+    <div fxFlex="0 1 200px" style="height: 100%">
+      <div>
+        <mat-form-field class="full" appearance="outline">
+          <mat-label>Name of the script</mat-label>
+          <input [disabled]="edit == false" matInput [(ngModel)]="id" />
+        </mat-form-field>
+      </div>
+
+      <div>
+        <button
+          *ngIf="edit == true"
+          mat-raised-button
+          (click)="saveGuard()"
+          color="primary"
+          title="Save and render"
+        >
+          Save & Render
+        </button>
+      </div>
+      <br />
+      <div class="clickable" (click)="setPage('javascript')">Javascript</div>
+      <div class="clickable" (click)="setPage('html')">HTML</div>
+      <div class="clickable" (click)="setPage('css')">CSS</div>
+    </div>
     <div
-      *ngIf="edit == true"
-      style="margin-bottom: 1em"
-      fxFlex="0 1 100%"
-      style="height: 35em"
-      fxFlex.lt-lg="0 1 100%"
-      fxFlex.gt-md="0 1 calc(50% - 16px)"
+      [hidden]="!edit"
+      style="height: 100%"
+      fxFlex="0 1 calc(100% - 200px - 1em)"
     >
       <ngx-monaco-editor
-        style="height: 100%"
-        *ngIf="toggle?.value == 'ts'"
+        *ngIf="page == 'javascript'"
+        style="height: 100%; width: 100%"
         [options]="tsEditorOptions"
         [(ngModel)]="tsCode"
       ></ngx-monaco-editor>
 
       <ngx-monaco-editor
-        style="height: 100%"
-        *ngIf="toggle?.value == 'html'"
+        *ngIf="page == 'html'"
+        style="height: 100%; width: 100%"
         [options]="htmlEditorOptions"
         [(ngModel)]="htmlCode"
       ></ngx-monaco-editor>
 
       <ngx-monaco-editor
-        style="height: 100%"
-        *ngIf="toggle?.value == 'css'"
+        *ngIf="page == 'css'"
+        style="height: 100%; width: 100%"
         [options]="cssEditorOptions"
         [(ngModel)]="cssCode"
-      >
-      </ngx-monaco-editor>
+      ></ngx-monaco-editor>
+
+      <div style="height: 100%; padding-top: 4px" [hidden]="page != 'render'">
+        <ng-template #content>
+          <app-render *ngIf="id" height="100%" [name]="id"></app-render>
+        </ng-template>
+        <ng-template #loading> Loading... </ng-template>
+        <ng-container #outlet> </ng-container>
+      </div>
     </div>
-    <div
-      fxFlex.lt-lg="0 1 100%"
-      fxFlex.gt-md="0 1 calc(50% - 16px)"
-      style="height: 35em"
-      class="outer"
-      *ngIf="edit == false"
-    >
-      <div class="middle" style="width: 100%; word-break: break-all">
-        <div class="inner" style="width: 100%">
-          <div style="font-size: 1.5em">
-            Embed this script by copying this iframe to your website:
-          </div>
-          <br />
-          <div
-            *ngIf="projectID()"
-            style="
-              font-size: 1.5em;
-              display: inline-block;
-              padding: 1em;
-              border-radius: 5px;
-              background: #f1f1f1;
-            "
-          >
-            &lt;iframe src="https://backend.m3o.dev/v1/serve?script={{
-              id
-            }}&project={{ projectID() }}"&gt;&lt;/iframe&gt;
-          </div>
-          <br />
-          <br />
-          <div>
-            <button mat-raised-button color="primary">Copy</button>&nbsp;&nbsp;
-            <button mat-raised-button *ngIf="loggedIn" (click)="editView()">
-              View script
-            </button>
-            <button mat-raised-button *ngIf="!loggedIn" routerLink="login">
-              Log in to edit script
-            </button>
-          </div>
+  </div>
+  <div style="height: 100%; width: 100%" class="outer" *ngIf="edit == false">
+    <div class="middle" style="width: 100%; word-break: break-all">
+      <div class="inner" style="width: 100%">
+        <div style="font-size: 1.5em">
+          Embed this script by copying this iframe to your website:
+        </div>
+        <br />
+        <div
+          *ngIf="projectID()"
+          style="
+            font-size: 1.5em;
+            display: inline-block;
+            padding: 1em;
+            border-radius: 5px;
+            background: #f1f1f1;
+          "
+        >
+          &lt;iframe src="https://backend.m3o.dev/v1/serve?script={{
+            id
+          }}&project={{ projectID() }}"&gt;&lt;/iframe&gt;
+        </div>
+        <br />
+        <br />
+        <div>
+          <button mat-raised-button color="primary">Copy</button>&nbsp;&nbsp;
+          <button mat-raised-button *ngIf="loggedIn" (click)="editView()">
+            View script
+          </button>
+          <button mat-raised-button *ngIf="!loggedIn" routerLink="login">
+            Log in to edit script
+          </button>
         </div>
       </div>
     </div>
-    <div fxFlex.lt-lg="0 1 100%" fxFlex.gt-md="0 1 calc(50% - 16px)">
-      <ng-template #content>
-        <app-render
-          *ngIf="id"
-          height="20em"
-          width="100%"
-          [name]="id"
-        ></app-render>
-      </ng-template>
-      <ng-template #loading> Loading... </ng-template>
-      <ng-container #outlet> </ng-container>
-    </div>
   </div>
-
-  <button *ngIf="edit == true" mat-raised-button (click)="edit = false">
-    Cancel Edit</button
-  >&nbsp;&nbsp;
-  <button
-    *ngIf="edit == true"
-    mat-raised-button
-    (click)="saveGuard()"
-    color="primary"
-  >
-    Save & Render
-  </button>
-</mat-card>
+</div>
