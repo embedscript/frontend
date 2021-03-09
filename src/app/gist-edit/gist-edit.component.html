@@ -26,9 +26,27 @@
         </button>
       </div>
       <br />
-      <div class="clickable" (click)="setPage('javascript')">Javascript</div>
-      <div class="clickable" (click)="setPage('html')">HTML</div>
-      <div class="clickable" (click)="setPage('css')">CSS</div>
+      <div
+        [ngClass]="{ selected: page == 'javascript' }"
+        class="clickable"
+        (click)="setPage('javascript')"
+      >
+        Javascript
+      </div>
+      <div
+        [ngClass]="{ selected: page == 'html' }"
+        class="clickable"
+        (click)="setPage('html')"
+      >
+        HTML
+      </div>
+      <div
+        [ngClass]="{ selected: page == 'css' }"
+        class="clickable"
+        (click)="setPage('css')"
+      >
+        CSS
+      </div>
     </div>
     <div
       [hidden]="!edit"
