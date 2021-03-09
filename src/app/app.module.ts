@@ -31,6 +31,7 @@ import { LoginComponent } from './login/login.component';
 import { RenderComponent } from './render/render.component';
 import { ToastrModule } from 'ngx-toastr';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
       //position: ["top", "right"],
     }),
     ToastrModule.forRoot(),
+    MatDividerModule,
   ],
   providers: [CookieService, UserService],
   bootstrap: [AppComponent],

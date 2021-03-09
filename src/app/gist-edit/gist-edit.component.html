@@ -27,6 +27,14 @@
       </div>
       <br />
       <div
+        [ngClass]="{ selected: page == 'embed' }"
+        class="clickable"
+        (click)="setPage('embed')"
+      >
+        Embed instructions
+      </div>
+      <mat-divider></mat-divider>
+      <div
         [ngClass]="{ selected: page == 'javascript' }"
         class="clickable"
         (click)="setPage('javascript')"
@@ -81,39 +89,42 @@
         <ng-template #loading> Loading... </ng-template>
         <ng-container #outlet> </ng-container>
       </div>
-    </div>
-  </div>
-  <div style="height: 100%; width: 100%" class="outer" *ngIf="edit == false">
-    <div class="middle" style="width: 100%; word-break: break-all">
-      <div class="inner" style="width: 100%">
-        <div style="font-size: 1.5em">
-          Embed this script by copying this iframe to your website:
-        </div>
-        <br />
-        <div
-          *ngIf="projectID()"
-          style="
-            font-size: 1.5em;
-            display: inline-block;
-            padding: 1em;
-            border-radius: 5px;
-            background: #f1f1f1;
-          "
-        >
-          &lt;iframe src="https://backend.m3o.dev/v1/serve?script={{
-            id
-          }}&project={{ projectID() }}"&gt;&lt;/iframe&gt;
-        </div>
-        <br />
-        <br />
-        <div>
-          <button mat-raised-button color="primary">Copy</button>&nbsp;&nbsp;
-          <button mat-raised-button *ngIf="loggedIn" (click)="editView()">
-            View script
-          </button>
-          <button mat-raised-button *ngIf="!loggedIn" routerLink="login">
-            Log in to edit script
-          </button>
+
+      <div
+        *ngIf="page == 'embed'"
+        style="height: 100%; width: 100%"
+        class="outer"
+      >
+        <div class="middle" style="width: 100%; word-break: break-all">
+          <div class="inner" style="width: 100%">
+            <div style="font-size: 1.5em">
+              Embed this script by copying this iframe to your website:
+            </div>
+            <br />
+            <div
+              *ngIf="projectID()"
+              style="
+                font-size: 1.5em;
+                display: inline-block;
+                padding: 1em;
+                border-radius: 5px;
+                background: #f1f1f1;
+              "
+            >
+              &lt;iframe src="https://backend.m3o.dev/v1/serve?script={{
+                id
+              }}&project={{ projectID() }}"&gt;&lt;/iframe&gt;
+            </div>
+            <br />
+            <br />
+            <div>
+              <button mat-raised-button color="primary">Copy</button
+              >&nbsp;&nbsp;
+              <button mat-raised-button *ngIf="!loggedIn" routerLink="login">
+                Log in to edit script
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
