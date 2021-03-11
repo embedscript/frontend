@@ -14,14 +14,13 @@ export class RegisterComponent implements OnInit {
   password: string = '';
   verifySent = false;
   verificationCode: string = '';
+  username: string = '';
 
   constructor(
     private us: UserService,
     private router: Router,
     private toastr: ToastrService
-  ) {
-
-  }
+  ) {}
 
   ngOnInit() {}
 
@@ -32,13 +31,17 @@ export class RegisterComponent implements OnInit {
         this.verifySent = true;
       })
       .catch((e) => {
+        if (e.error.Detail.includes("already exists")) {
+          this.verifySent = true;
+          return
+        }
         this.toastr.error(e.error.Detail);
       });
   }
 
   verify() {
     this.us
-      .verify(this.email, this.password, this.verificationCode)
+      .verify(this.email, this.username, this.password, this.verificationCode)
       .then(() => {
         document.location.href = '/';
       })
