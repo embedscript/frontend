@@ -5,4 +5,5 @@
   <span><a routerLink="/">Home</a></span>
   <span *ngIf="user?.name">{{ user?.name }}</span>
   <span *ngIf="!user?.name"><a routerLink="login">Login</a></span>
+  <span *ngIf="user?.name"><a href="#" (click)="logout()">Logout</a></span>
 </mat-toolbar>

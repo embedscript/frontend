@@ -16,6 +16,9 @@ import { UserService } from '../user.service';
 })
 export class RenderComponent implements OnInit, OnChanges {
   @Input() name: string;
+  @Input() html: string;
+  @Input() javascript: string;
+  @Input() css: string;
   @ViewChild('theiframe', { static: false }) theiframe: ElementRef;
 
   code: SafeHtml;
@@ -46,9 +49,21 @@ export class RenderComponent implements OnInit, OnChanges {
   ngOnChanges(): void {}
 
   iframeURL(): SafeUrl {
+    if (this.name) {
+      return this._sanitizer.bypassSecurityTrustResourceUrl(
+        'https://backend.m3o.dev/v1/serve?script=' +
+          this.name +
+          '&project=' +
+          this.us.projectID()
+      );
+    }
     return this._sanitizer.bypassSecurityTrustResourceUrl(
-      'https://backend.m3o.dev/v1/serve?script=' +
-        this.name +
+      'https://backend.m3o.dev/v1/serve?javascript=' +
+        this.javascript +
+        '&html=' +
+        this.html +
+        '&css=' +
+        this.css +
         '&project=' +
         this.us.projectID()
     );

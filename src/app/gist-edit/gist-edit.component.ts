@@ -45,6 +45,7 @@ export class GistEditComponent implements OnInit {
   loading = false;
   page = 'render';
   id: string = 'helloworld';
+  previewID: string = '';
   edited = false;
   @Input() edit: boolean = true;
 
@@ -57,6 +58,7 @@ export class GistEditComponent implements OnInit {
     theme: 'vs-light',
     //theme: 'vs-dark',
     folding: false,
+    readOnly: true,
     glyphMargin: false,
     //lineNumbers: false,
     //lineDecorationsWidth: 0,
@@ -80,6 +82,7 @@ export class GistEditComponent implements OnInit {
     automaticLayout: true,
     theme: 'vs-light',
     folding: false,
+    readOnly: true,
     //glyphMargin: false,
     // lineNumbers: false,
     //lineDecorationsWidth: 0,
@@ -103,6 +106,7 @@ export class GistEditComponent implements OnInit {
     automaticLayout: true,
     theme: 'vs-light',
     folding: false,
+    readOnly: true,
     glyphMargin: false,
     //lineNumbers: false,
     //lineDecorationsWidth: 0,
@@ -127,24 +131,40 @@ export class GistEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loading = true;
     this.route.paramMap.subscribe((params) => {
       if (params.get('id')) {
         this.id = params.get('id');
       }
+      this.previewID = this.id;
       this.load();
     });
-    this.loggedIn = this.us.user?.id != '';
+
+    this.loggedIn = this.us.loggedIn();
     this.us.isUserLoggedIn.subscribe((v) => {
       this.loggedIn = v;
+      if (this.loggedIn) {
+        this.tsEditorOptions.readOnly = false;
+        this.htmlEditorOptions.readOnly = false;
+        this.cssEditorOptions.readOnly = false;
+      }
     });
   }
 
   setPage(page: string) {
     this.page = page;
+    // only do preview magic if user is owner.
+    // no one else can edit the script so it's ok
+    if (this.page == 'render' && this.isOwner()) {
+      if (this.id == this.previewID) {
+        this.previewID = makeid(15);
+      }
+      this.save(this.previewID)
+    }
   }
 
-  load(): void {
-    this.fs.list(this.id).then((files) => {
+  load(): Promise<void> {
+    return this.fs.list(this.id).then((files) => {
       var fs = _(files)
         .groupBy(function (v) {
           return v.project;
@@ -187,38 +207,42 @@ export class GistEditComponent implements OnInit {
     return md5.appendStr(this.us.user.id).end().toString();
   }
 
-  save(): Promise<void> {
-    this.outletRef.clear();
-    this.outletRef.createEmbeddedView(this.loadingRef);
+  save(projectID: string): Promise<void> {
+    if (this.outletRef) {
+      this.outletRef.clear();
+      this.outletRef.createEmbeddedView(this.loadingRef);
+    }
     this.loading = true;
 
+    const arr = [
+      {
+        id: projectID + ':' + 'main.ts',
+        path: 'main.ts',
+        file_contents: this.tsCode,
+        is_directory: false,
+        project: projectID,
+        owner: this.us.user.id,
+      },
+      {
+        id: projectID + ':' + 'index.html',
+        path: 'index.html',
+        file_contents: this.htmlCode,
+        is_directory: false,
+        project: projectID,
+        owner: this.us.user.id,
+      },
+      {
+        id: projectID + ':' + 'style.css',
+        path: 'style.css',
+        file_contents: this.cssCode,
+        is_directory: false,
+        project: projectID,
+        owner: this.us.user.id,
+      },
+    ];
+
     return this.fs
-      .save([
-        {
-          id: this.id + ':' + 'main.ts',
-          path: 'main.ts',
-          file_contents: this.tsCode,
-          is_directory: false,
-          project: this.id,
-          owner: this.us.user.id,
-        },
-        {
-          id: this.id + ':' + 'index.html',
-          path: 'index.html',
-          file_contents: this.htmlCode,
-          is_directory: false,
-          project: this.id,
-          owner: this.us.user.id,
-        },
-        {
-          id: this.id + ':' + 'style.css',
-          path: 'style.css',
-          file_contents: this.cssCode,
-          is_directory: false,
-          project: this.id,
-          owner: this.us.user.id,
-        },
-      ])
+      .save(arr)
       .then(() => {
         this.outletRef.clear();
         this.outletRef.createEmbeddedView(this.contentRef);
@@ -233,21 +257,25 @@ export class GistEditComponent implements OnInit {
     this.edit = true;
   }
 
+  isOwner(): boolean {
+    return this.owner && this.us.user.id == this.owner;
+  }
+
   saveGuard() {
-    this.page = 'render';
     if (!this.us.user || !this.us.user.id) {
       this.toastr.error('Log in first to edit a script');
       return;
     }
-    if (!this.edited && (!this.owner || this.us.user.id != this.owner)) {
+    this.page = 'render';
+    if (!this.edited && !this.isOwner()) {
       this.id += '-' + makeid(6);
-      this.save().then(() => {
+      this.save(this.id).then(() => {
         this.load();
         this.edited = true;
         this.edit = true;
       });
       return;
     }
-    this.save();
+    this.save(this.id);
   }
 }

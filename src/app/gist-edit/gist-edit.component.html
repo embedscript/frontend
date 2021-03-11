@@ -16,16 +16,30 @@
 
       <div>
         <button
-          *ngIf="edit == true"
+          *ngIf="edit == true && loggedIn"
           mat-raised-button
           (click)="saveGuard()"
           color="primary"
-          title="Save and render"
+          title="Save"
         >
-          Save & Render
+          Save
         </button>
+        <div style="text-align: center">
+          <span *ngIf="!loggedIn"
+            ><a href="#" routerLink="/login"
+              >Please log in to edit scripts</a
+            ></span
+          >
+        </div>
       </div>
       <br />
+      <div
+        [ngClass]="{ selected: page == 'render' }"
+        class="clickable"
+        (click)="setPage('render')"
+      >
+        Preview
+      </div>
       <div
         [ngClass]="{ selected: page == 'embed' }"
         class="clickable"
@@ -84,7 +98,11 @@
 
       <div style="height: 100%; padding-top: 4px" [hidden]="page != 'render'">
         <ng-template #content>
-          <app-render *ngIf="id" height="100%" [name]="id"></app-render>
+          <app-render
+            *ngIf="htmlCode"
+            height="100%"
+            [name]="previewID"
+          ></app-render>
         </ng-template>
         <ng-template #loading> Loading... </ng-template>
         <ng-container #outlet> </ng-container>
