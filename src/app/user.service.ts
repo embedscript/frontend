@@ -75,7 +75,7 @@ export class UserService {
     this.cookie.set('micro_token', '', 30, null, null, null, null);
     this.cookie.set('micro_refresh', '', 30, null, null, null, null);
     this.cookie.set('micro_expiry', '', 30, null, null, null, null);
-    document.location.href = '/login';
+    document.location.href = '/';
   }
 
   // this method should be in the datastore service
