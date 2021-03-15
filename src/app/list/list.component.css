@@ -64,3 +64,13 @@ mat-paginator {
   background: #f8f8f8;
   margin-bottom: 2em;
 }
+
+.label {
+
+        display: inline-block;
+        padding: 0.5em;
+        background: #444;
+        border-radius: 0.5em;
+        color: white;
+      
+}

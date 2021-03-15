@@ -1,4 +1,43 @@
-<app-gist-edit></app-gist-edit>
+<div fxLayout="row wrap" style="padding: 4em" fxLayoutAlign="space-between">
+  <div fxFlex.lt-lg="0 1 100%" fxFlex.gt-md="0 1 calc(50% - 1em)">
+    <h1 style="font-size: 4em; line-height: 1em">
+      Social frontend development
+    </h1>
+    <div style="margin-top: 2em; color: #333">
+      Embedscript is a tiny framework, a package manager, Firebase-like APIs and
+      a webhost all in one.<br />
+      Building frontend widgets and sharing them with your friends has never
+      been this easy.
+      <br /><br /><br />
+      <button color="primary" mat-raised-button>Start Coding</button>
+    </div>
+  </div>
+  <div
+    fxFlex.lt-lg="0 1 100%"
+    style="padding-top: 1em"
+    fxFlex.gt-md="0 1 calc(50% - 1em)"
+  >
+    <span class="label">Write code</span>
+
+    <code>
+      <pre>
+        {{ exampleCode }}
+  </pre
+      >
+    </code>
+    <span class="label">Place embed code to your site</span>
+
+    <code>
+      <pre>
+&lt;iframe src="https://backend.m3o.dev/v1/serve?
+  script=name-of-script&
+  project=projectid-1337"&gt;
+&lt;/iframe&gt;
+</pre
+      >
+    </code>
+  </div>
+</div>
 
 <br />
 <br />
@@ -9,6 +48,7 @@
       padding: 0.5em;
       background: #444444;
       color: #fcfcfc;
+      font-weight: 300px !important;
       border-radius: 0px 5px 5px 0px;
     "
     >See what others are building</span
@@ -18,9 +58,6 @@
 <br />
 
 <div style="width: 100%; margin: 0 auto">
-  <app-gist-list style="margin: 0 auto"></app-gist-list>
-  <div style="text-align: center">
-    <button mat-raised-button color="primary">See More</button>
-  </div>
+  <app-gist-list *ngIf="files" [files]="files" style="margin: 0 auto"></app-gist-list>
   <br />
 </div>

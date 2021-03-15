@@ -133,6 +133,9 @@ export class UserService {
             } else {
               user.name = user.id;
             }
+            if (user.metadata["username"]) {
+              user.name = user.metadata["username"]
+            }
             resolve(user);
           })
           .catch((e) => {

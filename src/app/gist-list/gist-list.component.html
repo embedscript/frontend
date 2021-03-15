@@ -2,7 +2,7 @@
   <div *ngIf="!files" style="text-align: center">No widgets yet.</div>
   <div
     *ngIf="files"
-    style="width: 95%; margin: 0 auto;"
+    style="width: 95%; margin: 0 auto"
     id="grid"
     fxLayout="row wrap"
     fxLayoutGap.gt-md="32px"
@@ -12,14 +12,15 @@
       *ngFor="let fileGroup of files"
       fxFlex.lt-lg="0 1 100%"
       fxFlex.gt-md="0 1 calc(33.3% - 32px)"
-      style="padding-bottom: 2em;"
+      style="padding-bottom: 2em"
     >
       <mat-card style="background: #fcfcfc; margin-bottom: 1em">
         <mat-card-title
-          ><a routerLink="/gist/{{ getTs(fileGroup).project }}">{{
+          ><a routerLink="/s/{{ getTs(fileGroup).project }}">{{
             getTs(fileGroup).project
           }}</a></mat-card-title
         >
+        <mat-card-subtitle>by {{ getTs(fileGroup).username }}</mat-card-subtitle>
         <app-render
           style="background: white"
           [name]="getTs(fileGroup).project"

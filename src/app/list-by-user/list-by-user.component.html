@@ -1,0 +1,4 @@
+<div style="padding: 2em">
+  <h1>{{ this.owner }}'s scripts</h1>
+</div>
+<app-gist-list *ngIf="owner" [ownerName]="owner"></app-gist-list>
