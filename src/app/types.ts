@@ -1,4 +1,49 @@
-import * as posts from '@m3o/services/posts';
+export interface File {
+  file_contents?: string;
+  id?: string;
+  owner?: string;
+  created?: number;
+  is_directory?: boolean;
+  name?: string;
+  path?: string;
+  project?: string;
+  updated?: number;
+}
+
+export interface ListRequest {
+  path?: string;
+  project?: string;
+}
+
+export interface ListResponse {
+  files?: {
+    file_contents?: string;
+    id?: string;
+    is_directory?: boolean;
+    name?: string;
+    owner?: string;
+    project?: string;
+    created?: number;
+    path?: string;
+    updated?: number;
+  }[];
+}
+
+export interface SaveRequest {
+  files?: {
+    path?: string;
+    project?: string;
+    updated?: number;
+    created?: number;
+    file_contents?: string;
+    id?: string;
+    is_directory?: boolean;
+    name?: string;
+    owner?: string;
+  }[];
+}
+
+export interface SaveResponse {}
 
 export interface Embed {
   ID: string;

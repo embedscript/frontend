@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import * as d from '../data';
 import { PageEvent } from '@angular/material/paginator';
+import { FileService } from '../file.service';
+import * as _ from 'lodash';
+import * as types from '../types';
 
 @Component({
   selector: 'app-list',
@@ -14,27 +17,27 @@ Embed.post("datastore/create", {
   "table":    "comments",
   "value":    \`{"name":"joe", "comment": "Nice article!"}\`
 }`;
-  embeds = d.embeds;
-  length = d.embeds.length;
+  files: types.File[][];
   pageSize = 9;
   ids = ['datastore-example-v2', 'datastore-example-v2-admin'];
   pageSizeOptions: number[] = [5, 10, 25, 100];
   searchTerm: string = '';
 
-  constructor() {}
+  constructor(private fs: FileService) {}
 
   ngOnInit(): void {
-    this.embeds = d.embeds;
-  }
-
-  filter() {
-    if (this.searchTerm.length == 0) {
-      this.embeds = d.embeds;
-    }
-    this.embeds = d.embeds.filter(
-      (e) =>
-        e.description.toLowerCase().includes(this.searchTerm) ||
-        e.name.toLowerCase().includes(this.searchTerm)
-    );
+    this.fs.list('', '', this.ids).then((files) => {
+      this.files = _(files)
+        .filter((v) => {
+          return this.ids.includes(v.project);
+        })
+        .groupBy(function (v) {
+          return v.project;
+        })
+        .map(function (items) {
+          return items;
+        })
+        .value();
+    });
   }
 }

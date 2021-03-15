@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import * as files from '@m3o/services/files';
 import { FileService } from '../file.service';
 import * as _ from 'lodash';
+import * as types from '../types';
 
 @Component({
   selector: 'app-gist-list',
@@ -10,18 +10,19 @@ import * as _ from 'lodash';
 })
 export class GistListComponent implements OnInit {
   @Input() ownerName: string;
+  @Input() files: types.File[][];
   pageSize = 9;
   pageSizeOptions: number[] = [5, 10, 25, 100];
   searchTerm: string = '';
 
-  files: files.File[][];
-
   constructor(private fs: FileService) {}
 
   ngOnInit(): void {
-    const prom = this.ownerName != ''
-      ? this.fs.list('', this.ownerName)
-      : this.fs.list();
+    if (this.files) {
+      return;
+    }
+    const prom =
+      this.ownerName != '' ? this.fs.list('', this.ownerName) : this.fs.list();
     prom.then((files) => {
       this.files = _(files)
         .groupBy(function (v) {
@@ -34,15 +35,15 @@ export class GistListComponent implements OnInit {
     });
   }
 
-  getStyle(files: files.File[]): files.File {
+  getStyle(files: types.File[]): types.File {
     return files.filter((f) => f.path.includes('style'))[0];
   }
 
-  getTs(files: files.File[]): files.File {
+  getTs(files: types.File[]): types.File {
     return files.filter((f) => f.path.includes('main'))[0];
   }
 
-  getHtml(files: files.File[]): files.File {
+  getHtml(files: types.File[]): types.File {
     return files.filter((f) => f.path.includes('index'))[0];
   }
 }

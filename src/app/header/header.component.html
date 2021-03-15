@@ -3,7 +3,7 @@
     ><a routerLink="/"><img id="logo" src="/assets/logo-transparent.png" /></a
   ></span>
   <span><a routerLink="/">Home</a></span>
-  <span *ngIf="user?.name"><a href="#" routerLink="/s/helloworld">New</a></span>
+  <span><a href="#" routerLink="/s/helloworld">New</a></span>
   <span fxFlex></span>
   <span *ngIf="user?.name"
     ><a href="#" routerLink="/{{ user?.name }}">{{ user?.name }}</a></span

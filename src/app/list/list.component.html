@@ -4,15 +4,19 @@
       Social frontend development
     </h1>
     <div style="margin-top: 2em; color: #333">
-      Embedscript is a tiny framework, a package manager, firebase-like APIs and
+      Embedscript is a tiny framework, a package manager, Firebase-like APIs and
       a webhost all in one.<br />
-      Building frontend widgets and sharing them with your friend has never been
-      this easy.
+      Building frontend widgets and sharing them with your friends has never
+      been this easy.
       <br /><br /><br />
       <button color="primary" mat-raised-button>Start Coding</button>
     </div>
   </div>
-  <div fxFlex.lt-lg="0 1 100%" fxFlex.gt-md="0 1 calc(50% - 1em)">
+  <div
+    fxFlex.lt-lg="0 1 100%"
+    style="padding-top: 1em"
+    fxFlex.gt-md="0 1 calc(50% - 1em)"
+  >
     <span class="label">Write code</span>
 
     <code>
@@ -54,6 +58,6 @@
 <br />
 
 <div style="width: 100%; margin: 0 auto">
-  <app-gist-list style="margin: 0 auto"></app-gist-list>
+  <app-gist-list *ngIf="files" [files]="files" style="margin: 0 auto"></app-gist-list>
   <br />
 </div>

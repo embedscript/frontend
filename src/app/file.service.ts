@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UserService } from './user.service';
-import * as files from '@m3o/services/files';
+import * as types from './types';
 import {
   HttpClient,
   HttpEventType,
@@ -14,7 +14,11 @@ import { environment } from '../environments/environment';
 export class FileService {
   constructor(private us: UserService, private http: HttpClient) {}
 
-  list(project?: string, ownerName?: string): Promise<files.File[]> {
+  list(
+    project?: string,
+    ownerName?: string,
+    projects?: string[]
+  ): Promise<types.File[]> {
     var req = {};
     if (project) {
       req['project'] = project;
@@ -22,7 +26,10 @@ export class FileService {
     if (ownerName) {
       req['username'] = ownerName;
     }
-    return new Promise<files.File[]>((resolve, reject) => {
+    if (projects) {
+      req['projects'] = projects;
+    }
+    return new Promise<types.File[]>((resolve, reject) => {
       var headers = {
         //"micro-namespace": this.us.namespace(),
         'Micro-Namespace': environment.namespace,
@@ -31,12 +38,12 @@ export class FileService {
         headers['authorization'] = this.us.token();
       }
       return this.http
-        .post<files.ListResponse>(environment.apiUrl + '/files/list', req, {
+        .post<types.ListResponse>(environment.apiUrl + '/files/list', req, {
           headers: headers,
         })
         .toPromise()
         .then((servs) => {
-          resolve(servs.files as files.File[]);
+          resolve(servs.files as types.File[]);
         })
         .catch((e) => {
           reject(e);
@@ -44,13 +51,13 @@ export class FileService {
     });
   }
 
-  save(files: files.File[]): Promise<void> {
-    const req: files.SaveRequest = {
+  save(files: types.File[]): Promise<void> {
+    const req: types.SaveRequest = {
       files: files,
     };
     return new Promise<void>((resolve, reject) => {
       return this.http
-        .post<files.SaveResponse>(environment.apiUrl + '/files/save', req, {
+        .post<types.SaveResponse>(environment.apiUrl + '/files/save', req, {
           headers: {
             authorization: this.us.token(),
             //"micro-namespace": this.us.namespace(),
