@@ -1,6 +1,7 @@
 export interface File {
   file_contents?: string;
   id?: string;
+  username?: string;
   owner?: string;
   created?: number;
   is_directory?: boolean;

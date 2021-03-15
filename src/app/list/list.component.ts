@@ -19,7 +19,7 @@ Embed.post("datastore/create", {
 }`;
   files: types.File[][];
   pageSize = 9;
-  ids = ['datastore-example-v2', 'datastore-example-v2-admin'];
+  ids = ['datastore-example-v3', 'datastore-example-v3-admin'];
   pageSizeOptions: number[] = [5, 10, 25, 100];
   searchTerm: string = '';
 
