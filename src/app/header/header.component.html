@@ -1,9 +1,13 @@
-<mat-toolbar style="overflow: hidden">
-  <span style="padding-right: 0.5em;"
+<mat-toolbar style="overflow: hidden; border-bottom: #aaa">
+  <span style="padding-right: 0.5em"
     ><a routerLink="/"><img id="logo" src="/assets/logo-transparent.png" /></a
   ></span>
   <span><a routerLink="/">Home</a></span>
-  <span *ngIf="user?.name">{{ user?.name }}</span>
+  <span *ngIf="user?.name"><a href="#" routerLink="/s/helloworld">New</a></span>
+  <span fxFlex></span>
+  <span *ngIf="user?.name"
+    ><a href="#" routerLink="/{{ user?.name }}">{{ user?.name }}</a></span
+  >
   <span *ngIf="!user?.name"><a routerLink="login">Login</a></span>
   <span *ngIf="user?.name"><a href="#" (click)="logout()">Logout</a></span>
 </mat-toolbar>

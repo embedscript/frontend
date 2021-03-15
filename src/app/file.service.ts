@@ -14,10 +14,13 @@ import { environment } from '../environments/environment';
 export class FileService {
   constructor(private us: UserService, private http: HttpClient) {}
 
-  list(project?: string): Promise<files.File[]> {
-    var req: files.ListRequest = {};
+  list(project?: string, ownerName?: string): Promise<files.File[]> {
+    var req = {};
     if (project) {
-      req.project = project;
+      req['project'] = project;
+    }
+    if (ownerName) {
+      req['username'] = ownerName;
     }
     return new Promise<files.File[]>((resolve, reject) => {
       var headers = {
@@ -34,40 +37,6 @@ export class FileService {
         .toPromise()
         .then((servs) => {
           resolve(servs.files as files.File[]);
-        })
-        .catch((e) => {
-          reject(e);
-        });
-    });
-  }
-
-  // this method should be in the datastore service
-  // it creates a dummy rule to establish ownership
-  // of a project
-  initProject(project: string): Promise<void> {
-    var req = {
-      rule: {
-        project: project,
-        table: '_internal',
-        action: 'write',
-        role: 'admin',
-      },
-    };
-    return new Promise<void>((resolve, reject) => {
-      var headers = {
-        //"micro-namespace": this.us.namespace(),
-        'Micro-Namespace': environment.namespace,
-      };
-      if (this.us.token().length > 0) {
-        headers['authorization'] = this.us.token();
-      }
-      return this.http
-        .post(environment.apiUrl + '/datastore/createRule', req, {
-          headers: headers,
-        })
-        .toPromise()
-        .then((servs) => {
-          resolve();
         })
         .catch((e) => {
           reject(e);

@@ -32,6 +32,7 @@ import { RenderComponent } from './render/render.component';
 import { ToastrModule } from 'ngx-toastr';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { MatDividerModule } from '@angular/material/divider';
+import { ListByUserComponent } from './list-by-user/list-by-user.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { MatDividerModule } from '@angular/material/divider';
     LoginComponent,
     RenderComponent,
     ForgotPasswordComponent,
+    ListByUserComponent,
   ],
   imports: [
     CommonModule,

@@ -157,9 +157,9 @@ export class GistEditComponent implements OnInit {
     // no one else can edit the script so it's ok
     if (this.page == 'render' && this.isOwner()) {
       if (this.id == this.previewID) {
-        this.previewID = makeid(15);
+        this.previewID = 'preview-' + makeid(15);
       }
-      this.save(this.previewID)
+      this.save(this.previewID);
     }
   }
 

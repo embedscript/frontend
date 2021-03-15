@@ -1,18 +1,25 @@
-import { Component, OnInit } from "@angular/core";
-import * as d from "../data";
-import { PageEvent } from "@angular/material/paginator";
+import { Component, OnInit } from '@angular/core';
+import * as d from '../data';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
-  selector: "app-list",
-  templateUrl: "./list.component.html",
-  styleUrls: ["./list.component.css"],
+  selector: 'app-list',
+  templateUrl: './list.component.html',
+  styleUrls: ['./list.component.css'],
 })
 export class ListComponent implements OnInit {
+  exampleCode = `
+Embed.post("datastore/create", {
+  "project":  "projectid-1337",
+  "table":    "comments",
+  "value":    \`{"name":"joe", "comment": "Nice article!"}\`
+}`;
   embeds = d.embeds;
   length = d.embeds.length;
   pageSize = 9;
+  ids = ['datastore-example-v2', 'datastore-example-v2-admin'];
   pageSizeOptions: number[] = [5, 10, 25, 100];
-  searchTerm: string = "";
+  searchTerm: string = '';
 
   constructor() {}
 

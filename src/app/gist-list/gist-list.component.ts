@@ -1,42 +1,48 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import * as files from '@m3o/services/files';
-import { FileService } from "../file.service";
-import * as _ from "lodash";
+import { FileService } from '../file.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-gist-list',
   templateUrl: './gist-list.component.html',
-  styleUrls: ['./gist-list.component.css']
+  styleUrls: ['./gist-list.component.css'],
 })
 export class GistListComponent implements OnInit {
+  @Input() ownerName: string;
   pageSize = 9;
   pageSizeOptions: number[] = [5, 10, 25, 100];
-  searchTerm: string = "";
+  searchTerm: string = '';
 
   files: files.File[][];
 
-  constructor(private fs: FileService) { }
+  constructor(private fs: FileService) {}
 
   ngOnInit(): void {
-    this.fs.list().then(files => {
-      this.files = _(files).groupBy(function(v) {
-        return v.project;
-      }).map(function(items) {
-        return items
-      }).value();
-    })
-   
+    const prom = this.ownerName != ''
+      ? this.fs.list('', this.ownerName)
+      : this.fs.list();
+    prom.then((files) => {
+      this.files = _(files)
+        .groupBy(function (v) {
+          return v.project;
+        })
+        .map(function (items) {
+          return items;
+        })
+        .value();
+    });
   }
 
   getStyle(files: files.File[]): files.File {
-    return files.filter(f => f.path.includes("style"))[0]
+    return files.filter((f) => f.path.includes('style'))[0];
   }
 
   getTs(files: files.File[]): files.File {
-    return files.filter(f => f.path.includes("main"))[0]
+    return files.filter((f) => f.path.includes('main'))[0];
   }
 
   getHtml(files: files.File[]): files.File {
-    return files.filter(f => f.path.includes("index"))[0]
+    return files.filter((f) => f.path.includes('index'))[0];
   }
 }
