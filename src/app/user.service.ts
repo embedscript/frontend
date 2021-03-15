@@ -92,7 +92,6 @@ export class UserService {
     };
     return new Promise<void>((resolve, reject) => {
       var headers = {
-        //"micro-namespace": this.us.namespace(),
         'Micro-Namespace': environment.namespace,
       };
       if (this.token().length > 0) {
@@ -129,7 +128,9 @@ export class UserService {
           .toPromise()
           .then((userResponse) => {
             const user = userResponse.account;
-            if (!user.name) {
+            if (user.metadata && user.metadata['username']) {
+              user.name = user.metadata['username'];
+            } else {
               user.name = user.id;
             }
             resolve(user);
@@ -222,6 +223,11 @@ export class UserService {
           environment.apiUrl + '/signup/SendVerificationEmail',
           {
             email: email,
+          },
+          {
+            headers: {
+              'Micro-Namespace': environment.namespace,
+            },
           }
         )
         .toPromise()
@@ -235,10 +241,6 @@ export class UserService {
   }
 
   sendRecover(email: string): Promise<void> {
-    var headers = {
-      //"micro-namespace": this.us.namespace(),
-      'Micro-Namespace': environment.namespace,
-    };
     return new Promise<void>((resolve, reject) => {
       return this.http
         .post<TokenResponse>(
@@ -246,7 +248,11 @@ export class UserService {
           {
             email: email,
           },
-          { headers: headers }
+          {
+            headers: {
+              'Micro-Namespace': environment.namespace,
+            },
+          }
         )
         .toPromise()
         .then((userResponse) => {
@@ -291,15 +297,24 @@ export class UserService {
 
   verify(
     email: string,
+    username: string,
     password: string,
     verificationCode: string
   ): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       return this.http
-        .post(environment.apiUrl + '/signup/Verify', {
-          email: email,
-          token: verificationCode,
-        })
+        .post(
+          environment.apiUrl + '/signup/Verify',
+          {
+            email: email,
+            token: verificationCode,
+          },
+          {
+            headers: {
+              'Micro-Namespace': environment.namespace,
+            },
+          }
+        )
         .toPromise()
         .then((userResponse) => {
           return this.http
@@ -307,8 +322,14 @@ export class UserService {
               environment.apiUrl + '/signup/CompleteSignup',
               {
                 email: email,
+                username: username,
                 token: verificationCode,
                 secret: password,
+              },
+              {
+                headers: {
+                  'Micro-Namespace': environment.namespace,
+                },
               }
             )
             .toPromise()
