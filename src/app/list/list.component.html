@@ -8,8 +8,14 @@
       a webhost all in one.<br />
       Building frontend widgets and sharing them with your friends has never
       been this easy.
-      <br /><br /><br />
-      <button color="primary" mat-raised-button>Start Coding</button>
+      <br /><br />
+      What if Github gists would be alive? With Embedscript writing frontend
+      apps and widgets that can be reused by you<br />
+      or anyone else is as easy as saving a gist. You will need no backend, as
+      we provide <br /><br /><br />
+      <br />
+      <button color="primary" mat-raised-button>Start Coding</button
+      ><br /><br />
     </div>
   </div>
   <div
@@ -21,21 +27,54 @@
 
     <code>
       <pre>
-        {{ exampleCode }}
-  </pre
-      >
+Embed.post<span class="brace">(</span><span class="string">"datastore/create"</span>, <span class="brace">&#123;</span>
+  <span class="string">"project"</span>:  <span class="string">"projectid-1337"</span>,
+  <span class="string">"table"</span>:    <span class="string">"comments"</span>,
+  <span class="string">"value"</span>:    <span class="string">`"name":"joe", "comment": "Nice article!"`</span>
+<span class="brace">&#125;)</span>;
+  </pre>
     </code>
     <span class="label">Place embed code to your site</span>
 
     <code>
       <pre>
-&lt;iframe src="https://backend.m3o.dev/v1/serve?
+&lt;iframe src=<span class="string">"https://backend.m3o.dev/v1/serve?
   script=name-of-script&
-  project=projectid-1337"&gt;
+  project=projectid-1337"</span>&gt;
 &lt;/iframe&gt;
-</pre
-      >
+</pre>
     </code>
+  </div>
+</div>
+
+<div fxLayout="row wrap" fxLayoutAlign="space-between">
+  <div
+    fxFlex.lt-lg="0 1 100%"
+    style="padding: 4em; background: #f2f2f2"
+    fxFlex.gt-md="0 1 calc(50% - 1em)"
+  >
+    <h1 style="font-size: 2em; line-height: 1em">
+      Ready to use scripts, with your own your data
+    </h1>
+    <p style="color: #555">
+      Every script can be instantly used by logged in users.<br />
+      When you embed the script, it will be done with your own project id.<br />
+      This means you own all the data that script is accessing, and not the
+      author of the script.<br />
+    </p>
+  </div>
+  <div
+    fxFlex.lt-lg="0 1 100%"
+    style="padding: 4em; padding-left: 0;"
+    fxFlex.gt-md="0 1 calc(50% - 1em)"
+  >
+    <h1 style="font-size: 2em; line-height: 1em">APIs at your fingertips.</h1>
+    <p style="color: #555">
+      Define data access rules for your tables and save data straight from the
+      browser.<br />
+      Use a users service or streaming to build your next app..<br />
+      Never write a backend again.
+    </p>
   </div>
 </div>
 
@@ -57,7 +96,18 @@
 
 <br />
 
-<div style="width: 100%; margin: 0 auto">
-  <app-gist-list *ngIf="files" [files]="files" style="margin: 0 auto"></app-gist-list>
+<div
+  style="
+    width: calc(100% - 2em);
+    padding-left: 1em;
+    padding-right: 1em;
+    margin: 0 auto;
+  "
+>
+  <app-gist-list
+    *ngIf="files"
+    [files]="files"
+    style="margin: 0 auto"
+  ></app-gist-list>
   <br />
 </div>

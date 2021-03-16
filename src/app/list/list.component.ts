@@ -11,12 +11,6 @@ import * as types from '../types';
   styleUrls: ['./list.component.css'],
 })
 export class ListComponent implements OnInit {
-  exampleCode = `
-Embed.post("datastore/create", {
-  "project":  "projectid-1337",
-  "table":    "comments",
-  "value":    \`{"name":"joe", "comment": "Nice article!"}\`
-}`;
   files: types.File[][];
   pageSize = 9;
   ids = ['datastore-example-v3', 'datastore-example-v3-admin'];
