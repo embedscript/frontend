@@ -1,4 +1,19 @@
-<div style="padding: 2em">
-  <h1>{{ this.owner }}'s scripts</h1>
+<div>
+  <br />
+  <span
+    style="
+      display: inline-block;
+      padding: 0.5em;
+      padding-bottom: 0;
+      background: #444444;
+      color: #fcfcfc;
+      font-weight: 300px !important;
+      border-radius: 0px 5px 5px 0px;
+    "
+    ><h1>{{ this.owner }}'s scripts</h1></span
+  >
+  <br /><br />
 </div>
+<div style="padding: 1em;">
 <app-gist-list *ngIf="owner" [ownerName]="owner"></app-gist-list>
+</div>

@@ -1,5 +1,7 @@
 <div id="container">
-  <div *ngIf="!files" style="text-align: center">No widgets yet.</div>
+  <div *ngIf="!files" style="text-align: center">
+    You haven't written any scripts yet.
+  </div>
   <div
     *ngIf="files"
     style="width: 95%; margin: 0 auto"
@@ -20,7 +22,9 @@
             getTs(fileGroup).project
           }}</a></mat-card-title
         >
-        <mat-card-subtitle>by {{ getTs(fileGroup).username }}</mat-card-subtitle>
+        <mat-card-subtitle
+          >by <a routerLink="/{{ getTs(fileGroup).username }}">{{ getTs(fileGroup).username }}</a></mat-card-subtitle
+        >
         <app-render
           style="background: white"
           [name]="getTs(fileGroup).project"
