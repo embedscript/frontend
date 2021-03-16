@@ -22,6 +22,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
+              "src/e.js",
               { "glob": "**/*", "input": "node_modules/ngx-monaco-editor/assets/monaco", "output": "./assets/monaco/" },
               {
                 "glob": "**/*.js",
