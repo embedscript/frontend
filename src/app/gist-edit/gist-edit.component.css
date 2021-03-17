@@ -36,3 +36,11 @@
 .selected {
   text-decoration: underline;
 }
+
+.string {
+  color: #aa4444
+}
+
+.brace {
+  color: #4444aa
+}
