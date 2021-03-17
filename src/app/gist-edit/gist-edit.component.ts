@@ -141,6 +141,11 @@ export class GistEditComponent implements OnInit {
     });
 
     this.loggedIn = this.us.loggedIn();
+    if (this.loggedIn) {
+      this.tsEditorOptions.readOnly = false;
+      this.htmlEditorOptions.readOnly = false;
+      this.cssEditorOptions.readOnly = false;
+    }
     this.us.isUserLoggedIn.subscribe((v) => {
       this.loggedIn = v;
       if (this.loggedIn) {
