@@ -1,4 +1,6 @@
-const script = document.currentScript.getAttribute('script');
+// https://stackoverflow.com/questions/5292372/how-to-pass-parameters-to-a-script-tag
+
+const script = document.currentScript.getAttribute('embed');
 const project = document.currentScript.getAttribute('project');
 
 document.currentScript.outerHTML =
