@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { DomSanitizer, SafeHtml, SafeUrl } from '@angular/platform-browser';
 import { UserService } from '../user.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-render',
@@ -54,7 +55,9 @@ export class RenderComponent implements OnInit, OnChanges {
         'https://backend.m3o.dev/v1/serve?script=' +
           this.name +
           '&project=' +
-          this.us.projectID()
+          this.us.projectID() +
+          '&local=' +
+          environment.production
       );
     }
     return this._sanitizer.bypassSecurityTrustResourceUrl(
